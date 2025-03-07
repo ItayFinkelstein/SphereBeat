@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "705717396812",
+    "project_id": "spherebeatandroid",
+    "storage_bucket": "spherebeatandroid.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705717396812:android:9bbb2d080c01671a781be9",
+        "android_client_info": {
+          "package_name": "fullstack.application.spherebeat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDXNcwTyvmVMg49TQHRvJLmfZoCQk0O80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
