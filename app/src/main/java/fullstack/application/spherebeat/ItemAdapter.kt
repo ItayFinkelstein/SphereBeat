@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import fullstack.application.spherebeat.types.Playlist
 
 class ItemAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
