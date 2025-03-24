@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -18,14 +20,15 @@ private const val ARG_PARAM2 = "param2"
  */
 class ListsFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ItemAdapter
+    private lateinit var itemList: List<Playlist>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -33,8 +36,22 @@ class ListsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val rootView = inflater.inflate(R.layout.fragment_lists, container, false)
+        recyclerView = rootView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Sample data
+        itemList = listOf(
+            Playlist(R.drawable.icons_song, "Text 1"),
+            Playlist(R.drawable.icons_song, "Text 2"),
+            Playlist(R.drawable.icons_song, "Text 3")
+        )
+
+        adapter = ItemAdapter(itemList)
+        recyclerView.adapter = adapter
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lists, container, false)
+        return rootView
     }
 
     companion object {
