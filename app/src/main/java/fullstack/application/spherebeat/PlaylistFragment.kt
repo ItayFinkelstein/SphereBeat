@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.types.Playlist
+import fullstack.application.spherebeat.adapter.PlaylistAdapter
+import fullstack.application.spherebeat.model.Playlist
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,13 +17,13 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ListsFragment.newInstance] factory method to
+ * Use the [PlaylistFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListsFragment : Fragment() {
+class PlaylistFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: ItemAdapter
+    private lateinit var adapter: PlaylistAdapter
     private lateinit var itemList: List<Playlist>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +50,7 @@ class ListsFragment : Fragment() {
             Playlist(R.drawable.beatles_album, "The Beatles")
         )
 
-        adapter = ItemAdapter(itemList)
+        adapter = PlaylistAdapter(itemList)
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment
         return rootView
@@ -67,7 +68,7 @@ class ListsFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ListsFragment().apply {
+            PlaylistFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

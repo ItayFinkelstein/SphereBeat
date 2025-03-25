@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.types.Playlist
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.model.Playlist
 
-class ItemAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
+class PlaylistAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapter<PlaylistAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.item_image)
@@ -16,7 +17,7 @@ class ItemAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapter<I
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_layout, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.playlist_layout, parent, false)
         return ItemViewHolder(view)
     }
 

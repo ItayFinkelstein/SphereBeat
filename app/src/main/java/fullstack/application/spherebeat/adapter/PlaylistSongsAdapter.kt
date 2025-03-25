@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.types.Song
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.model.Song
 
 class PlaylistSongsAdapter(private val itemList: List<Song>, private val listener: OnItemClickListener) : RecyclerView.Adapter<PlaylistSongsAdapter.PlaylistSongsViewHolder>() {
 

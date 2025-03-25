@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Song Image (Upper half of the screen) -->
     <ImageView
         android:id="@+id/song_image"
         android:layout_width="0dp"
@@ -16,10 +15,6 @@
         app:layout_constraintHeight_percent="0.5"
     android:src="@drawable/elton_john_album"
     android:scaleType="centerCrop"/>
-
-    <!-- Song Name -->
-
-    <!-- Singer Name -->
 
     <TextView
         android:id="@+id/song_title_text_view"

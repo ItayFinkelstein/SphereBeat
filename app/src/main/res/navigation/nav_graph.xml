@@ -12,17 +12,17 @@
     </fragment>
     <fragment
         android:id="@+id/listsFragment"
-        android:name="fullstack.application.spherebeat.ListsFragment"
+        android:name="fullstack.application.spherebeat.PlaylistFragment"
         android:label="Lists"
         tools:layout="@layout/fragment_lists" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="fullstack.application.spherebeat.PlaylistSongsFragment"
+        android:name="fullstack.application.spherebeat.SearchFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="fullstack.application.spherebeat.FragmentCreatePost"
+        android:name="fullstack.application.spherebeat.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_view_song" />
 

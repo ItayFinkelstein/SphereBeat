@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".PlaylistSongsFragment">
+    tools:context=".adapter.PlaylistSongsFragment">
 
-    <!-- Top Image -->
     <ImageView
         android:id="@+id/top_image"
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Title TextView -->
     <TextView
         android:id="@+id/playlist_song_title"
         android:layout_width="wrap_content"
@@ -29,7 +27,6 @@
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp" />
 
-    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"

@@ -1,6 +1,6 @@
 package fullstack.application.spherebeat
 
-import fullstack.application.spherebeat.types.Song
+import fullstack.application.spherebeat.model.Song
 
 import android.os.Bundle
 import android.view.LayoutInflater
