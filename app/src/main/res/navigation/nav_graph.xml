@@ -22,8 +22,8 @@
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="fullstack.application.spherebeat.PostFragment"
+        android:name="fullstack.application.spherebeat.FragmentCreatePost"
         android:label="Profile"
-        tools:layout="@layout/fragment_post" />
+        tools:layout="@layout/fragment_view_song" />
 
 </navigation>
