@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_lists" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="fullstack.application.spherebeat.SearchFragment"
+        android:name="fullstack.application.spherebeat.PlaylistSongsFragment"
         android:label="Search"
         tools:layout="@layout/fragment_search" />
     <fragment
