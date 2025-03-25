@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.EditText
 import android.widget.RatingBar
+import android.widget.TextView
 
 class FragmentCreatePost : Fragment() {
 
@@ -15,21 +15,21 @@ class FragmentCreatePost : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the fragment's layout
         val view = inflater.inflate(R.layout.fragment_create_post, container, false)
 
-        // Handle the rating logic here
-        val ratingBar = view.findViewById<RatingBar>(R.id.rating_bar)
+        val starsRatingBar = view.findViewById<RatingBar>(R.id.rating_bar)
+        val songView: TextView = view.findViewById(R.id.create_post_song_title_view)
+        val singerView: TextView = view.findViewById(R.id.create_post_singer_view)
 
-        // Set a listener if you want to get the rating when it changes
-        ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
-            // Handle rating change
+        songView.text = "Candle in the Wind"
+        singerView.text = "Elton John"
+
+
+        starsRatingBar.setOnRatingBarChangeListener { _, rating, _ ->
             // The rating is a float value between 0 and 5
             Log.d("Rating", "User selected rating: $rating")
         }
 
-        // Set up the post description input (if needed)
-        val postDescription = view.findViewById<EditText>(R.id.post_description)
 
         return view
     }
