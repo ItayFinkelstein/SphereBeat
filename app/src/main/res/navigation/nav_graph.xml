@@ -12,7 +12,7 @@
     </fragment>
     <fragment
         android:id="@+id/listsFragment"
-        android:name="fullstack.application.spherebeat.ListsFragment"
+        android:name="fullstack.application.spherebeat.PlaylistFragment"
         android:label="Lists"
         tools:layout="@layout/fragment_lists" />
     <fragment

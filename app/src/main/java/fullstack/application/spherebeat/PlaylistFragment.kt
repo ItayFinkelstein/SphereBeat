@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import fullstack.application.spherebeat.adapter.PlaylistAdapter
+import fullstack.application.spherebeat.model.Playlist
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -13,19 +17,20 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [ListsFragment.newInstance] factory method to
+ * Use the [PlaylistFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ListsFragment : Fragment() {
+class PlaylistFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PlaylistAdapter
+    private lateinit var itemList: List<Playlist>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+//            param1 = it.getString(ARG_PARAM1)
+//            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -33,8 +38,22 @@ class ListsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        val rootView = inflater.inflate(R.layout.fragment_lists, container, false)
+        recyclerView = rootView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Sample data
+        itemList = listOf(
+            Playlist(R.drawable.elton_john_album, "Yellow Brick Road"),
+            Playlist(R.drawable.taylor_swift_album, "1989"),
+            Playlist(R.drawable.beatles_album, "The Beatles")
+        )
+
+        adapter = PlaylistAdapter(itemList)
+        recyclerView.adapter = adapter
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lists, container, false)
+        return rootView
     }
 
     companion object {
@@ -49,7 +68,7 @@ class ListsFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            ListsFragment().apply {
+            PlaylistFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
