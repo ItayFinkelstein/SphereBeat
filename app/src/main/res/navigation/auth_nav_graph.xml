@@ -11,6 +11,9 @@
         android:name="fullstack.application.spherebeat.WelcomeFragment"
         android:label="SphereBeat"
         tools:layout="@layout/fragment_welcome">
+        <deepLink
+            android:id="@+id/deepLinkToWelcome"
+            app:uri="app://fullstack.application.spherebeat/welcome" />
         <action
             android:id="@+id/action_welcomeFragment_to_loginFragment"
             app:destination="@id/loginFragment" />

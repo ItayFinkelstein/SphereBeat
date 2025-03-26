@@ -1,35 +1,40 @@
 package fullstack.application.spherebeat
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.core.net.toUri;
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import fullstack.application.spherebeat.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    var navController: NavController? = null
+    private lateinit var binding: ActivityMainBinding
+    private var navController: NavController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val toolBar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolBar)
+        setSupportActionBar(binding.toolbar)
 
         val navHostController: NavHostFragment? = supportFragmentManager.findFragmentById(R.id.main_nav_host) as? NavHostFragment
         navController = navHostController?.navController
@@ -40,8 +45,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.main_bottomNavigation)
-        navController?.let { NavigationUI.setupWithNavController(bottomNavigationView, it) }
+        val menu = binding.mainBottomNavigation.menu
+        menu.removeItem(R.id.logout)
+        navController?.let { NavigationUI.setupWithNavController(binding.mainBottomNavigation, it) }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -55,7 +62,16 @@ class MainActivity : AppCompatActivity() {
                 navController?.popBackStack()
                 true
             }
+            R.id.logout -> {
+                Log.d("MainActivity", "Logout")
+                val intent = Intent(this, AuthActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                true
+            }
             else -> {
+                Log.d("MainActivity", "itemId + ${item.itemId}")
                 navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 true
             }
