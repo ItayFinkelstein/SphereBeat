@@ -24,6 +24,6 @@
         android:id="@+id/profileFragment"
         android:name="fullstack.application.spherebeat.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_view_song" />
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>
