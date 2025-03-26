@@ -9,6 +9,9 @@
         android:name="fullstack.application.spherebeat.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
+        <deepLink
+            android:id="@+id/deepLinkToHome"
+            app:uri="app://fullstack.application.spherebeat/home" />
     </fragment>
     <fragment
         android:id="@+id/listsFragment"

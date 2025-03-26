@@ -2,8 +2,15 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.SphereBeat" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="buttonStyle">@style/CustomButton</item>
+        <item name="materialButtonStyle">@style/CustomButton</item>
     </style>
 
     <style name="Theme.SphereBeat" parent="Base.Theme.SphereBeat" />
+
+    <!-- Define the button style -->
+    <style name="CustomButton" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/blue</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

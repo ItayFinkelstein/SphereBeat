@@ -19,7 +19,6 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:indeterminateDrawable="@android:drawable/progress_medium_material"
         android:maxWidth="50dp"
         android:maxHeight="50dp"
         android:minWidth="50dp"
