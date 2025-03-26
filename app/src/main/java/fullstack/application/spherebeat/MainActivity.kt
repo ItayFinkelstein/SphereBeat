@@ -1,6 +1,9 @@
 package fullstack.application.spherebeat
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -42,7 +45,10 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        val menu = binding.mainBottomNavigation.menu
+        menu.removeItem(R.id.logout)
         navController?.let { NavigationUI.setupWithNavController(binding.mainBottomNavigation, it) }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -57,13 +63,15 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.logout -> {
-                val request = NavDeepLinkRequest.Builder
-                    .fromUri("app://fullstack.application.spherebeat/welcome".toUri())
-                    .build()
-                navController?.navigate(request)
+                Log.d("MainActivity", "Logout")
+                val intent = Intent(this, AuthActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
                 true
             }
             else -> {
+                Log.d("MainActivity", "itemId + ${item.itemId}")
                 navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 true
             }

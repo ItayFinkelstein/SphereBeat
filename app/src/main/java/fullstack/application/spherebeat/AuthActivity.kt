@@ -20,21 +20,8 @@ class AuthActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.auth_nav_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        navController?.let {
-            NavigationUI.setupActionBarWithNavController(
-                activity = this,
-                navController = it
-            )
-        }
-        // Initialize the ProgressBar
-        progressBar = findViewById(R.id.progressBar)
-    }
 
-    fun showProgressBar() {
-        progressBar.visibility = CircularProgressIndicator.VISIBLE
-    }
+        navController.navigate(R.id.welcomeFragment)
 
-    fun hideProgressBar() {
-        progressBar.visibility = CircularProgressIndicator.INVISIBLE
     }
 }

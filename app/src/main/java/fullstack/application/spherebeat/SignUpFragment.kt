@@ -1,5 +1,6 @@
 package fullstack.application.spherebeat
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,10 +28,9 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.signUpButton.setOnClickListener {
-            val request = NavDeepLinkRequest.Builder
-                .fromUri("app://fullstack.application.spherebeat/home".toUri())
-                .build()
-            findNavController().navigate(request)
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
     }
 

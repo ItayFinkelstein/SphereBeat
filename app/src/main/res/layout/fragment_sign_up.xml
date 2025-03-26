@@ -48,7 +48,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/UsernameTextInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="@color/blue"
                 android:hint="Username..." />
         </com.google.android.material.textfield.TextInputLayout>
@@ -56,13 +56,13 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/EmailTextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/EmailTextInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="@color/blue"
                 android:hint="Email..." />
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,7 +76,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/PasswordTextInput"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:background="@color/blue"
                 android:hint="Password..."
                 android:inputType="textPassword" />
@@ -111,6 +111,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="100dp"
+        android:backgroundTint="@color/blue"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
