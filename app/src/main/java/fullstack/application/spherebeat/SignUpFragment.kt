@@ -3,13 +3,16 @@ package fullstack.application.spherebeat
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.FirebaseAuth
 import fullstack.application.spherebeat.databinding.FragmentSignUpBinding
+import com.google.firebase.auth.FirebaseUser
 
 class SignUpFragment : Fragment() {
 
@@ -17,12 +20,14 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
     private var cameraLauncher: ActivityResultLauncher<Void?>? = null
     private var didSetProfileImage = false
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        auth = FirebaseAuth.getInstance()
         return binding.root
     }
 
@@ -46,6 +51,31 @@ class SignUpFragment : Fragment() {
         }
     }
 
+    private fun signUpUser(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    updateUI(user)
+                } else {
+                    //Toast.makeText(this, "Sign Up failed.", Toast.LENGTH_SHORT).show()
+                    updateUI(null)
+                }
+            }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            // User is signed in, you can go to a different screen or display user info
+            Log.v("Sign up success", "Welcome, ${user.email}")
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            // No user signed in, stay on the sign-in screen
+            Log.v("Sign up failure", "Please sign in")
+        }
+    }
+
     private fun onSignUp() {
         if (didSetProfileImage) {
             binding.profileImageView.isDrawingCacheEnabled = true
@@ -59,8 +89,10 @@ class SignUpFragment : Fragment() {
             //createUser()
         }
 
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
+        signUpUser(binding.EmailTextInput.text.toString(), binding.PasswordTextInput.text.toString())
+
+
+
         activity?.finish()
     }
 

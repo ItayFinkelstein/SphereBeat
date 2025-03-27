@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.auth.FirebaseAuth
 import fullstack.application.spherebeat.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -68,6 +69,10 @@ class MainActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
+                val auth = FirebaseAuth.getInstance()
+
+                // Sign out the current user
+                auth.signOut()
                 true
             }
             else -> {
