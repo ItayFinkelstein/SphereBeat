@@ -60,6 +60,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
 
     implementation(libs.room.runtime)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
     kapt(libs.room.compiler)
     implementation(libs.room.ktx)
 
