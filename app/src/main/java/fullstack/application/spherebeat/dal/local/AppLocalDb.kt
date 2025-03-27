@@ -25,7 +25,6 @@ abstract class AppLocalDbRepository: RoomDatabase() {
 object AppLocalDb {
 
     val database: AppLocalDbRepository by lazy {
-
         val context = ApplicationContext.Globals.context ?: throw IllegalStateException("Application context is missing")
 
         Room.databaseBuilder(
