@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat.data.local
+package fullstack.application.spherebeat.dal.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -7,10 +7,10 @@ import fullstack.application.spherebeat.model.Song
 @Dao
 interface SongDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(song: Song)
+    fun insert(song: Song)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(songs: List<Song>)
+    fun insertAll(songs: List<Song>)
 
     @Query("SELECT * FROM songs WHERE id = :songId")
     fun getSong(songId: String): LiveData<Song>
@@ -19,8 +19,8 @@ interface SongDao {
     fun getAllSongs(): LiveData<List<Song>>
 
     @Delete
-    suspend fun delete(song: Song)
+    fun delete(song: Song)
 
     @Query("DELETE FROM songs")
-    suspend fun clear()
+    fun clear()
 }

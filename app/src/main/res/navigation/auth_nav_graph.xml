@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="fullstack.application.spherebeat.WelcomeFragment"
+        android:name="fullstack.application.spherebeat.ui.WelcomeFragment"
         android:label="SphereBeat"
         tools:layout="@layout/fragment_welcome">
         <deepLink
@@ -23,12 +23,12 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="fullstack.application.spherebeat.LoginFragment"
+        android:name="fullstack.application.spherebeat.ui.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="fullstack.application.spherebeat.SignUpFragment"
+        android:name="fullstack.application.spherebeat.ui.SignUpFragment"
         android:label="Sign Up"
         tools:layout="@layout/fragment_sign_up" />
 </navigation>

@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import fullstack.application.spherebeat.model.Song
 
@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import fullstack.application.spherebeat.R
+
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 

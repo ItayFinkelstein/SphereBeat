@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.adapter.PostAdapter
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.ui.adapter.PostAdapter
 import fullstack.application.spherebeat.model.Post
 
 // TODO: Rename parameter arguments, choose names that match

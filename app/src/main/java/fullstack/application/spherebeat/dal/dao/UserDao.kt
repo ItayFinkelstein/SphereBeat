@@ -7,7 +7,10 @@ import fullstack.application.spherebeat.model.User
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(user: User)
+    fun insert(user: User)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg user: User)
 
     @Query("SELECT * FROM users WHERE id = :userId")
     fun getUserById(userId: String): LiveData<User>
@@ -16,8 +19,8 @@ interface UserDao {
     fun getAllUsers(): LiveData<List<User>>
 
     @Update
-    suspend fun update(user: User)
+    fun update(user: User)
 
     @Delete
-    suspend fun delete(user: User)
+    fun delete(user: User)
 }

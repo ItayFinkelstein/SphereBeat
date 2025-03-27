@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import fullstack.application.spherebeat.MainActivity
 import fullstack.application.spherebeat.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {

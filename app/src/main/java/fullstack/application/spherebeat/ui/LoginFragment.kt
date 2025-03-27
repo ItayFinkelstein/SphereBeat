@@ -1,35 +1,34 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import fullstack.application.spherebeat.databinding.FragmentWelcomeBinding
+import fullstack.application.spherebeat.MainActivity
+import fullstack.application.spherebeat.databinding.FragmentLoginBinding
 
-class WelcomeFragment : Fragment() {
+class LoginFragment : Fragment() {
 
-    private var _binding: FragmentWelcomeBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.signUpButton.setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_signUpFragment)
-        }
-
         binding.loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_welcomeFragment_to_loginFragment)
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
     }
 

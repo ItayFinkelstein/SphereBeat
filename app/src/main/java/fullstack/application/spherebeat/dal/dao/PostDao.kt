@@ -7,7 +7,10 @@ import fullstack.application.spherebeat.model.Post
 @Dao
 interface PostDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(post: Post)
+    fun insert(post: Post)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(vararg post: Post)
 
     @Query("SELECT * FROM posts WHERE id = :postId")
     fun getPostById(postId: String): LiveData<Post>
@@ -16,5 +19,5 @@ interface PostDao {
     fun getAllPosts(): LiveData<List<Post>>
 
     @Delete
-    suspend fun delete(post: Post)
+    fun delete(post: Post)
 }

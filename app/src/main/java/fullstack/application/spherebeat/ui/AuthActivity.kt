@@ -1,12 +1,12 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import fullstack.application.spherebeat.R
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var navController: NavController

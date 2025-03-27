@@ -13,7 +13,7 @@
         android:theme="@style/Theme.SphereBeat"
         tools:targetApi="31">
         <activity
-            android:name=".AuthActivity"
+            android:name=".ui.AuthActivity"
             android:label="Auth Activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="true">

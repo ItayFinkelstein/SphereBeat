@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat.model.dao
+package fullstack.application.spherebeat.dal.local
 
 import androidx.room.Database
 import androidx.room.Room
@@ -7,8 +7,6 @@ import androidx.room.TypeConverters
 import fullstack.application.spherebeat.base.ApplicationContext
 import fullstack.application.spherebeat.dao.PostDao
 import fullstack.application.spherebeat.dao.UserDao
-import fullstack.application.spherebeat.data.local.PlaylistDao
-import fullstack.application.spherebeat.data.local.SongDao
 import fullstack.application.spherebeat.model.Playlist
 import fullstack.application.spherebeat.model.Post
 import fullstack.application.spherebeat.model.Song
