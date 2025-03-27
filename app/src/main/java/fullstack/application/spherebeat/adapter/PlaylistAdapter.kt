@@ -23,8 +23,9 @@ class PlaylistAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = itemList[position]
-        holder.imageView.setImageResource(item.imageResId)
-        holder.textView.text = item.text
+        //holder.imageView.setImageResource(item.imageResId)
+        // TODO: Uncomment the above
+        holder.textView.text = item.name
     }
 
     override fun getItemCount(): Int {

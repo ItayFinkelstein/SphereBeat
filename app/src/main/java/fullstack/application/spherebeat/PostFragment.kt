@@ -43,7 +43,7 @@ class PostFragment : Fragment() {
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Sample data
+        /*// Sample data
         itemList = listOf(
             Post(
                 R.drawable.elton_john_album, "Yellow Brick Road",
@@ -59,6 +59,42 @@ class PostFragment : Fragment() {
                 R.drawable.beatles_album, "Yellow Submarine",
                 singer = "The Beatles",
                 text = ""
+            )
+        )*/
+        // TODO: fix the above code
+        itemList = listOf(
+            Post(
+                id = "1",
+                songName = "Yellow Brick Road",
+                singer = "Elton John",
+                songReleaseDate = 1973,
+                songLength = 240,
+                coverUrl = "R.drawable.elton_john_album",
+                rating = 5,
+                text = "",
+                likes = listOf()
+            ),
+            Post(
+                id = "2",
+                songName = "Timeless",
+                singer = "Taylor Swift",
+                songReleaseDate = 2014,
+                songLength = 231,
+                coverUrl = "R.drawable.taylor_swift_album",
+                rating = 4,
+                text = "",
+                likes = listOf()
+            ),
+            Post(
+                id = "3",
+                songName = "Yellow Submarine",
+                singer = "The Beatles",
+                songReleaseDate = 1968,
+                songLength = 431,
+                coverUrl = "R.drawable.beatles_album",
+                rating = 5,
+                text = "",
+                likes = listOf()
             )
         )
 

@@ -24,7 +24,7 @@ class PostAdapter(private val itemList: List<Post>) : RecyclerView.Adapter<PostA
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = itemList[position]
-        holder.imageView.setImageResource(item.imageResId)
+        // holder.imageView.setImageResource(item.imageResId) TODO: Uncomment this line
         holder.textView.text = item.songName
         holder.singerView.text = item.singer
     }

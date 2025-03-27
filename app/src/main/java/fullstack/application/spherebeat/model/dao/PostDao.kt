@@ -1,0 +1,20 @@
+package fullstack.application.spherebeat.dao
+
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import fullstack.application.spherebeat.model.Post
+
+@Dao
+interface PostDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(post: Post)
+
+    @Query("SELECT * FROM posts WHERE id = :postId")
+    fun getPostById(postId: String): LiveData<Post>
+
+    @Query("SELECT * FROM posts")
+    fun getAllPosts(): LiveData<List<Post>>
+
+    @Delete
+    suspend fun delete(post: Post)
+}

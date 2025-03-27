@@ -1,11 +1,17 @@
 package fullstack.application.spherebeat.model
 
+import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import fullstack.application.spherebeat.base.ApplicationContext
+import fullstack.application.spherebeat.model.User.Companion.LOCAL_LAST_UPDATED
+import fullstack.application.spherebeat.util.Converters
 
 @Entity(tableName = "posts")
+@TypeConverters(Converters::class)
 data class Post(
     @PrimaryKey
     var id: String,
@@ -20,6 +26,16 @@ data class Post(
     val lastUpdated: Long? = null
 ) {
     companion object {
+        var lastUpdated: Long
+            get() = ApplicationContext.Globals.context?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                ?.getLong(LOCAL_LAST_UPDATED, 0) ?: 0
+            set(value) {
+                ApplicationContext.Globals.context
+                    ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)?.apply {
+                        edit().putLong(LOCAL_LAST_UPDATED, value).apply()
+                    }
+            }
+
         const val ID_KEY = "id"
         const val SONG_NAME_KEY = "songName"
         const val SINGER_KEY = "singer"

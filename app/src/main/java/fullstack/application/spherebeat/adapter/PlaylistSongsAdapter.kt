@@ -21,8 +21,8 @@ class PlaylistSongsAdapter(private val itemList: List<Song>, private val listene
         val textView: TextView = itemView.findViewById(R.id.playlist_song_text)
 
         fun bind(song: Song, listener: OnItemClickListener) {
-            imageView.setImageResource(song.imageResId)
-            textView.text = song.songName
+            //imageView.setImageResource(song.imageResId) TODO: Uncomment this line
+            textView.text = song.name
             singerView.text = song.singer
 
             // Set the click listener

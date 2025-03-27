@@ -43,12 +43,19 @@ class PlaylistFragment : Fragment() {
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Sample data
+        /*// Sample data
         itemList = listOf(
             Playlist(R.drawable.elton_john_album, "Yellow Brick Road"),
             Playlist(R.drawable.taylor_swift_album, "1989"),
             Playlist(R.drawable.beatles_album, "The Beatles")
-        )
+        )*/
+        //TODO: Uncomment the above code and remove the below code
+        // Sample data
+        itemList = listOf(
+            Playlist("1", "Yellow Brick Road", "R.drawable.elton_john_album", emptyList()),
+            Playlist("2", "taylor_swift_album", "R.drawable.taylor_swift_album", emptyList()),
+            Playlist("3", "beatles_album", "R.drawable.beatles_album", emptyList()),
+            )
 
         adapter = PlaylistAdapter(itemList)
         recyclerView.adapter = adapter

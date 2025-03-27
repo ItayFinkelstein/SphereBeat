@@ -1,9 +1,12 @@
 package fullstack.application.spherebeat.model
 
+import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
+import fullstack.application.spherebeat.base.ApplicationContext
+import fullstack.application.spherebeat.model.User.Companion.LOCAL_LAST_UPDATED
 
 @Entity(tableName = "songs")
 data class Song(
@@ -17,6 +20,16 @@ data class Song(
     val lastUpdated: Long? = null
 ) {
     companion object {
+        var lastUpdated: Long
+            get() = ApplicationContext.Globals.context?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
+                ?.getLong(LOCAL_LAST_UPDATED, 0) ?: 0
+            set(value) {
+                ApplicationContext.Globals.context
+                    ?.getSharedPreferences("TAG", Context.MODE_PRIVATE)?.apply {
+                        edit().putLong(LOCAL_LAST_UPDATED, value).apply()
+                    }
+            }
+
         const val ID_KEY = "id"
         const val NAME_KEY = "name"
         const val SINGER_KEY = "singer"
