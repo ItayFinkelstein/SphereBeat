@@ -1,5 +1,6 @@
 package fullstack.application.spherebeat
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.auth.FirebaseAuth
 import fullstack.application.spherebeat.databinding.ActivityMainBinding
 
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         menu.removeItem(R.id.logout)
         navController?.let { NavigationUI.setupWithNavController(binding.mainBottomNavigation, it) }
 
+        testFirebaseConnection()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,4 +85,25 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun testFirebaseConnection() {
+        val db = FirebaseFirestore.getInstance()
+        // Create a new user with a first and last name
+        val user = hashMapOf(
+            "first" to "Ada",
+            "last" to "Lovelace",
+            "born" to 1815,
+        )
+
+// Add a new document with a generated ID
+        db.collection("users")
+            .add(user)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+    }
+
 }
