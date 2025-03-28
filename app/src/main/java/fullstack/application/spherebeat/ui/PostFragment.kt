@@ -107,13 +107,21 @@ class PostFragment : Fragment() {
                     rating
                 )
                 findNavController().navigate(action)
-            }});
+            }
+            override fun onEditPostClick(name: String, singer: String, description: String, rating: Float) {
+                val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, name, singer, description,
+
+                )
+                findNavController().navigate(action)
+            }
+
+        });
 
         binding.recyclerView.adapter = adapter
 
         binding.createPostButton.setOnClickListener {
-            //val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment()
-            //findNavController().navigate(action)
+            val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment(6.0F)
+            findNavController().navigate(action)
         }
 
         Log.d("PostFragment", "onCreateView: postViewModel.postList.value: ${postViewModel.postList.value}")

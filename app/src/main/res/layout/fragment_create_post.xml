@@ -16,31 +16,34 @@
         android:src="@drawable/elton_john_album"
     android:scaleType="centerCrop" />
 
-    <TextView
+    <EditText
         android:id="@+id/create_post_song_title_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:text="Song Title"
+        android:hint="Song Title"
         android:textAlignment="center"
         android:textSize="18sp"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_post_song_image" />
 
-    <TextView
+    <EditText
         android:id="@+id/create_post_singer_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Singer Name"
+        android:hint="Singer Name"
         android:textAlignment="center"
         android:textSize="14sp"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_post_song_title_view" />
+
 
     <EditText
         android:id="@+id/post_description"

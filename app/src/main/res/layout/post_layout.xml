@@ -58,12 +58,12 @@
         app:layout_constraintTop_toBottomOf="@id/post_singer" />
 
     <ImageButton
-        android:id="@+id/like_button"
+        android:id="@+id/post_edit_button"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:background="?attr/selectableItemBackground"
-        android:contentDescription="Like"
-        android:src="@drawable/icon_like"
+        android:contentDescription="Edit"
+        android:src="@drawable/icon_edit2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

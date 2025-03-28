@@ -33,7 +33,23 @@
         android:id="@+id/createPostFragment"
         android:name="fullstack.application.spherebeat.ui.FragmentCreatePost"
         android:label="Create Post"
-        tools:layout="@layout/fragment_create_post"/>
+        tools:layout="@layout/fragment_create_post">
+        <argument
+            android:name="songName"
+            android:defaultValue="null"
+            app:argType="string" />
+        <argument
+            android:name="songArtist"
+            android:defaultValue="null"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            android:defaultValue="null"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+    </fragment>
     <fragment
         android:id="@+id/showPostFragment"
         android:name="fullstack.application.spherebeat.ui.ShowPostFragment"

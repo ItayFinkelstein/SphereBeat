@@ -16,14 +16,15 @@ class FragmentCreatePost : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val args = FragmentCreatePostArgs.fromBundle(requireArguments())
         val view = inflater.inflate(R.layout.fragment_create_post, container, false)
 
         val starsRatingBar = view.findViewById<RatingBar>(R.id.rating_bar)
         val songView: TextView = view.findViewById(R.id.create_post_song_title_view)
         val singerView: TextView = view.findViewById(R.id.create_post_singer_view)
 
-        songView.text = "Candle in the Wind"
-        singerView.text = "Elton John"
+        songView.text = args.songName
+        singerView.text = args.songArtist
 
 
         starsRatingBar.setOnRatingBarChangeListener { _, rating, _ ->
