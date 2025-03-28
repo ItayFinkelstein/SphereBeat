@@ -24,7 +24,50 @@
         android:id="@+id/listsFragment"
         android:name="fullstack.application.spherebeat.PlaylistFragment"
         android:label="Lists"
-        tools:layout="@layout/fragment_lists" />
+        tools:layout="@layout/fragment_lists" >
+        <action
+            android:id="@+id/action_playlistFragment_to_playlistSongFragment"
+            app:destination="@id/playlistSongFragment" >
+            <argument
+                android:name="playlistName"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/playlistSongFragment"
+        android:name="fullstack.application.spherebeat.PlaylistSongsFragment"
+        tools:layout="@layout/fragment_playlist_songs">
+        <action
+            android:id="@+id/action_playlistSongsFragment_to_viewSongFragment"
+            app:destination="@id/viewSongFragment" >
+            <argument
+                android:name="songName"
+                app:argType="string" />
+            <argument
+                android:name="artistName"
+                app:argType="string" />
+        </action>
+    <argument
+        android:name="playlistName"
+        app:argType="string" />
+        <argument
+            android:name="image"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/viewSongFragment"
+        android:name="fullstack.application.spherebeat.ViewSongFragment"
+        tools:layout="@layout/fragment_view_song">
+        <argument
+            android:name="songName"
+            app:argType="string" />
+        <argument
+            android:name="artistName"
+            app:argType="string" />
+        <argument
+            android:name="imageUrl"
+            app:argType="string"/>
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="fullstack.application.spherebeat.ProfileFragment"
