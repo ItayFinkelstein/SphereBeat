@@ -3,6 +3,7 @@ package fullstack.application.spherebeat.ui
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import fullstack.application.spherebeat.MainActivity
 import fullstack.application.spherebeat.databinding.FragmentSignUpBinding
+import com.google.firebase.auth.FirebaseUser
+import fullstack.application.spherebeat.dal.repository.UserRepository
+import fullstack.application.spherebeat.model.User
+import java.util.UUID
 
 class SignUpFragment : Fragment() {
 
@@ -18,6 +23,7 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
     private var cameraLauncher: ActivityResultLauncher<Void?>? = null
     private var didSetProfileImage = false
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +37,13 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize camera launcher
-        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                binding.profileImageView.setImageBitmap(bitmap)
-                didSetProfileImage = true
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+                if (bitmap != null) {
+                    binding.profileImageView.setImageBitmap(bitmap)
+                    didSetProfileImage = true
+                }
             }
-        }
 
         binding.takePhotoButton.setOnClickListener {
             cameraLauncher?.launch(null)
@@ -44,6 +51,29 @@ class SignUpFragment : Fragment() {
 
         binding.signUpButton.setOnClickListener {
             onSignUp()
+        }
+    }
+
+    private fun signUpUser(newUser: User) {
+        userRepository.signUp(newUser) { success ->
+            if (success) {
+                val user = userRepository.getLoggedUser()
+                updateUI(user)
+            } else {
+                updateUI(null)
+            }
+        }
+    }
+
+    private fun updateUI(user: FirebaseUser?) {
+        if (user != null) {
+            // User is signed in, you can go to a different screen or display user info
+            Log.v("Sign up success", "Welcome, ${user.email}")
+            val intent = Intent(activity, MainActivity::class.java)
+            startActivity(intent)
+        } else {
+            // No user signed in, stay on the sign-in screen
+            Log.v("Sign up failure", "Please sign in")
         }
     }
 
@@ -60,9 +90,19 @@ class SignUpFragment : Fragment() {
             //createUser()
         }
 
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
+        signUpUser(createUserFromFields())
+    }
+
+    private fun createUserFromFields(): User {
+        val user = User(
+            id = userRepository.getLoggedUser()?.uid ?: UUID.randomUUID().toString(),
+            name = binding.UsernameTextInput.text.toString(),
+            email = binding.EmailTextInput.text.toString(),
+            password = binding.PasswordTextInput.text.toString(),
+            avatarUrl = ""
+        )
+
+        return user
     }
 
     override fun onDestroyView() {

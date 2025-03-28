@@ -9,25 +9,26 @@ import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.model.Song
 
-class PlaylistSongsAdapter(private val itemList: List<Song>, private val listener: OnItemClickListener) : RecyclerView.Adapter<PlaylistSongsAdapter.PlaylistSongsViewHolder>() {
+class PlaylistSongsAdapter(private val itemList: List<Song>, private val onPlaylistSongClickListener: OnPlaylistSongClickListener) : RecyclerView.Adapter<PlaylistSongsAdapter.PlaylistSongsViewHolder>() {
 
-    interface OnItemClickListener {
-        fun onItemClick(song: Song)
+    interface OnPlaylistSongClickListener {
+        fun onPlaylistSongClick(song: Song)
     }
+
+
 
     class PlaylistSongsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val singerView: TextView  = itemView.findViewById(R.id.playlist_song_singer)
         val imageView: ImageView = itemView.findViewById(R.id.playlist_song_image)
         val textView: TextView = itemView.findViewById(R.id.playlist_song_text)
-
-        fun bind(song: Song, listener: OnItemClickListener) {
+        fun bind(song: Song) {
             //imageView.setImageResource(song.imageResId) TODO: Uncomment this line
             textView.text = song.name
             singerView.text = song.singer
 
             // Set the click listener
             itemView.setOnClickListener {
-                listener.onItemClick(song) // Call the listener's method when an item is clicked
+                //listener.onItemClick(song) // Call the listener's method when an item is clicked
             }
         }
     }
@@ -39,7 +40,11 @@ class PlaylistSongsAdapter(private val itemList: List<Song>, private val listene
 
     override fun onBindViewHolder(holder: PlaylistSongsViewHolder, position: Int) {
         val song = itemList[position]
-        holder.bind(song, listener)
+        holder.bind(song)
+
+        holder.itemView.setOnClickListener {
+            onPlaylistSongClickListener.onPlaylistSongClick(song)
+        }
     }
 
     override fun getItemCount(): Int {

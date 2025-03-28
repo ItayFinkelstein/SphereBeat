@@ -1,6 +1,7 @@
 package fullstack.application.spherebeat.dal.repository
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.auth.FirebaseUser
 import fullstack.application.spherebeat.dal.remote.FirebaseModel
 import fullstack.application.spherebeat.model.User
 import fullstack.application.spherebeat.dal.local.AppLocalDb
@@ -11,6 +12,10 @@ class UserRepository {
     private var executor = Executors.newSingleThreadExecutor()
     private val firebaseModel: FirebaseModel = FirebaseModel()
     private val localDb: AppLocalDbRepository = AppLocalDb.database
+
+    fun getLoggedUser(): FirebaseUser? {
+        return firebaseModel.getLoggedUser()
+    }
 
     fun getAllUsers(): LiveData<List<User>> {
         refreshAllUsers()
@@ -24,6 +29,24 @@ class UserRepository {
 
     fun signUp(user: User, callback: (Boolean) -> Unit) {
         firebaseModel.signUp(user) { success ->
+            if (success) {
+                refreshAllUsers()
+            }
+            callback(success)
+        }
+    }
+
+    fun login(email: String, password: String, callback: (Boolean, FirebaseUser?) -> Unit) {
+        firebaseModel.logIn(email, password) { success, user ->
+            if (success) {
+                refreshAllUsers()
+            }
+            callback(success, user)
+        }
+    }
+
+    fun logOut(callback: (Boolean) -> Unit) {
+        firebaseModel.logOut { success ->
             if (success) {
                 refreshAllUsers()
             }

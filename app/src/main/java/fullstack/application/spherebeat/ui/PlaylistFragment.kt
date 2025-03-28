@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
@@ -53,12 +54,17 @@ class PlaylistFragment : Fragment() {
         //TODO: Uncomment the above code and remove the below code
         // Sample data
         itemList = listOf(
-            Playlist("1", "Yellow Brick Road", "R.drawable.elton_john_album", emptyList()),
-            Playlist("2", "taylor_swift_album", "R.drawable.taylor_swift_album", emptyList()),
-            Playlist("3", "beatles_album", "R.drawable.beatles_album", emptyList()),
+            Playlist("1", "Yellow Brick Road", resources.getResourceEntryName(R.drawable.elton_john_album), emptyList()),
+            Playlist("2", "taylor swift album", resources.getResourceEntryName(R.drawable.taylor_swift_album), emptyList()),
+            Playlist("3", "The Beatles", resources.getResourceEntryName(R.drawable.beatles_album), emptyList()),
             )
 
-        adapter = PlaylistAdapter(itemList)
+        adapter = PlaylistAdapter(itemList, object : PlaylistAdapter.OnPlaylistClickListener {
+            override fun onPlaylistClick(name: String, imageUrl: String) {
+                val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, imageUrl)
+                findNavController().navigate(action)
+        }});
+//
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment
         return rootView

@@ -3,6 +3,7 @@ package fullstack.application.spherebeat.dal.remote
 import android.graphics.Bitmap
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestoreSettings
 import com.google.firebase.firestore.memoryCacheSettings
@@ -35,8 +36,8 @@ class FirebaseModel {
     }
 
     // --------------------------------------- USER AUTH ----------------------------------------------
-    fun getLoggedUserId(): String? {
-        return auth.currentUser?.uid
+    fun getLoggedUser(): FirebaseUser? {
+        return auth.currentUser
     }
 
     fun signUp(newUser: User, callback: (Boolean) -> Unit) {
@@ -51,12 +52,19 @@ class FirebaseModel {
             }
     }
 
-    fun logIn(email: String, password: String, callback: (Boolean) -> Unit) {
+    fun logIn(email: String, password: String, callback: (Boolean, FirebaseUser?) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task -> callback(task.isSuccessful) }
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    callback(true, user)
+                } else {
+                    callback(false, null)
+                }
+            }
     }
 
-    fun logOut() {
+    fun logOut( callback: (Boolean) -> Unit) {
         auth.signOut()
     }
 

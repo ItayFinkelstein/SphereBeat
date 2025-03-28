@@ -1,5 +1,6 @@
 package fullstack.application.spherebeat.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +10,12 @@ import androidx.navigation.fragment.findNavController
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.databinding.FragmentWelcomeBinding
 
+
 class WelcomeFragment : Fragment() {
 
     private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +27,7 @@ class WelcomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding.signUpButton.setOnClickListener {
             findNavController().navigate(R.id.action_welcomeFragment_to_signUpFragment)

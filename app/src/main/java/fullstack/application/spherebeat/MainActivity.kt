@@ -1,6 +1,5 @@
 package fullstack.application.spherebeat
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,20 +12,19 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.google.firebase.firestore.FirebaseFirestore
 import fullstack.application.spherebeat.dal.local.AppLocalDb
+import fullstack.application.spherebeat.dal.repository.UserRepository
 import fullstack.application.spherebeat.databinding.ActivityMainBinding
 import fullstack.application.spherebeat.ui.AuthActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        AppLocalDb.initialize(this)
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -70,6 +68,8 @@ class MainActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
+
+                userRepository.logOut { Log.d("MainActivity", "Logged out successfully") }
                 true
             }
             else -> {

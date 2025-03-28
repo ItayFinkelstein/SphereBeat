@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.model.Playlist
 
-class PlaylistAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapter<PlaylistAdapter.ItemViewHolder>() {
+class PlaylistAdapter(private val itemList: List<Playlist>, private val onPlaylistClickListener: OnPlaylistClickListener) : RecyclerView.Adapter<PlaylistAdapter.ItemViewHolder>() {
 
+    interface OnPlaylistClickListener {
+        fun onPlaylistClick(name: String, imageUrl: String)
+    }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.item_image)
         val textView: TextView = itemView.findViewById(R.id.item_text)
@@ -26,6 +29,12 @@ class PlaylistAdapter(private val itemList: List<Playlist>) : RecyclerView.Adapt
         //holder.imageView.setImageResource(item.imageResId)
         // TODO: Uncomment the above
         holder.textView.text = item.name
+        holder.imageView.setImageResource(holder.itemView.context.resources.getIdentifier(
+            item.coverUrl, "drawable", holder.itemView.context.packageName
+        ))
+        holder.itemView.setOnClickListener {
+            onPlaylistClickListener.onPlaylistClick(item.name, item.coverUrl)
+        }
     }
 
     override fun getItemCount(): Int {
