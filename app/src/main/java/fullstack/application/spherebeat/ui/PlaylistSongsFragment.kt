@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.adapter.PlaylistSongsAdapter
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.ui.adapter.PlaylistSongsAdapter
 import fullstack.application.spherebeat.databinding.FragmentPlaylistSongsBinding
-import fullstack.application.spherebeat.databinding.FragmentWelcomeBinding
 import fullstack.application.spherebeat.model.Song
 
 // TODO: Rename parameter arguments, choose names that match

@@ -1,28 +1,26 @@
 package fullstack.application.spherebeat
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri;
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.auth.FirebaseAuth
+import fullstack.application.spherebeat.dal.local.AppLocalDb
+import fullstack.application.spherebeat.dal.repository.UserRepository
 import fullstack.application.spherebeat.databinding.ActivityMainBinding
+import fullstack.application.spherebeat.ui.AuthActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var navController: NavController? = null
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,8 +49,6 @@ class MainActivity : AppCompatActivity() {
         val menu = binding.mainBottomNavigation.menu
         menu.removeItem(R.id.logout)
         navController?.let { NavigationUI.setupWithNavController(binding.mainBottomNavigation, it) }
-
-        testFirebaseConnection()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,10 +68,8 @@ class MainActivity : AppCompatActivity() {
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
-                val auth = FirebaseAuth.getInstance()
 
-                // Sign out the current user
-                auth.signOut()
+                userRepository.logOut { Log.d("MainActivity", "Logged out successfully") }
                 true
             }
             else -> {
@@ -84,26 +78,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-    }
-
-    fun testFirebaseConnection() {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815,
-        )
-
-// Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
     }
 
 }

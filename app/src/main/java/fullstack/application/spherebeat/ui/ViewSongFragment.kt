@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

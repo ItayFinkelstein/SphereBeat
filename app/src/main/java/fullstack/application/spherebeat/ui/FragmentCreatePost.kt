@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
+import fullstack.application.spherebeat.R
 
 class FragmentCreatePost : Fragment() {
 

@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,15 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.NavDeepLinkRequest
+import fullstack.application.spherebeat.MainActivity
 import com.google.firebase.auth.FirebaseUser
+import fullstack.application.spherebeat.dal.repository.UserRepository
 import fullstack.application.spherebeat.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
-
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,15 +26,13 @@ class LoginFragment : Fragment() {
     }
 
     private fun signInUser(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    updateUI(null)
-                }
+        userRepository.login(email, password) { success, user ->
+            if (success) {
+                updateUI(user)
+            } else {
+                updateUI(null)
             }
+        }
     }
 
     private fun updateUI(user: FirebaseUser?) {

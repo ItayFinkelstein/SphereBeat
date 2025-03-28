@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,12 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.firebase.auth.FirebaseAuth
-var auth = FirebaseAuth.getInstance()
+import fullstack.application.spherebeat.MainActivity
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.dal.local.AppLocalDb
+import fullstack.application.spherebeat.dal.repository.UserRepository
 
 class AuthActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var progressBar: CircularProgressIndicator
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +23,7 @@ class AuthActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_auth)
 
-        if (auth.currentUser != null) {
+        if (userRepository.getLoggedUser() != null) {
             // User is not signed in, navigate to the login screen
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

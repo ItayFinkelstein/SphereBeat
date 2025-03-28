@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import fullstack.application.spherebeat.base.ApplicationContext
-import fullstack.application.spherebeat.model.User.Companion.LOCAL_LAST_UPDATED
 
 @Entity(tableName = "songs")
 data class Song(
@@ -37,6 +36,7 @@ data class Song(
         const val LENGTH_KEY = "length"
         const val COVER_URL_KEY = "coverUrl"
         const val LAST_UPDATED = "lastUpdated"
+        const val LOCAL_LAST_UPDATED = "localSongLastUpdated"
 
         fun fromJSON(json: Map<String, Any>): Song {
             val id = json[ID_KEY] as? String ?: ""

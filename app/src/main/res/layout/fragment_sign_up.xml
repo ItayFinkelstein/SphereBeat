@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUpFragment">
+    tools:context=".ui.SignUpFragment">
 
     <ImageView
         android:id="@+id/BackgroundImageView"
@@ -104,7 +104,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Take Photo"
             android:src="@drawable/add_photo_icon"
-            android:tint="@color/blue" />
+            app:tint="@color/blue" />
     </LinearLayout>
 
     <Button

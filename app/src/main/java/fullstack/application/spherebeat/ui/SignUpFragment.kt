@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
+import fullstack.application.spherebeat.MainActivity
 import fullstack.application.spherebeat.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseUser
+import fullstack.application.spherebeat.dal.repository.UserRepository
+import fullstack.application.spherebeat.model.User
+import java.util.UUID
 
 class SignUpFragment : Fragment() {
 
@@ -20,14 +23,13 @@ class SignUpFragment : Fragment() {
     private val binding get() = _binding!!
     private var cameraLauncher: ActivityResultLauncher<Void?>? = null
     private var didSetProfileImage = false
-    private lateinit var auth: FirebaseAuth
+    private val userRepository: UserRepository = UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
-        auth = FirebaseAuth.getInstance()
         return binding.root
     }
 
@@ -35,12 +37,13 @@ class SignUpFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Initialize camera launcher
-        cameraLauncher = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                binding.profileImageView.setImageBitmap(bitmap)
-                didSetProfileImage = true
+        cameraLauncher =
+            registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+                if (bitmap != null) {
+                    binding.profileImageView.setImageBitmap(bitmap)
+                    didSetProfileImage = true
+                }
             }
-        }
 
         binding.takePhotoButton.setOnClickListener {
             cameraLauncher?.launch(null)
@@ -51,16 +54,15 @@ class SignUpFragment : Fragment() {
         }
     }
 
-    private fun signUpUser(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(requireActivity()) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    updateUI(null)
-                }
+    private fun signUpUser(newUser: User) {
+        userRepository.signUp(newUser) { success ->
+            if (success) {
+                val user = userRepository.getLoggedUser()
+                updateUI(user)
+            } else {
+                updateUI(null)
             }
+        }
     }
 
     private fun updateUI(user: FirebaseUser?) {
@@ -88,7 +90,19 @@ class SignUpFragment : Fragment() {
             //createUser()
         }
 
-        signUpUser(binding.EmailTextInput.text.toString(), binding.PasswordTextInput.text.toString())
+        signUpUser(createUserFromFields())
+    }
+
+    private fun createUserFromFields(): User {
+        val user = User(
+            id = userRepository.getLoggedUser()?.uid ?: UUID.randomUUID().toString(),
+            name = binding.UsernameTextInput.text.toString(),
+            email = binding.EmailTextInput.text.toString(),
+            password = binding.PasswordTextInput.text.toString(),
+            avatarUrl = ""
+        )
+
+        return user
     }
 
     override fun onDestroyView() {

@@ -13,6 +13,7 @@ data class User(
     var id: String,
     val email: String,
     val name: String,
+    val password: String,
     val avatarUrl: String,
     val lastUpdated: Long? = null
 ) {
@@ -31,6 +32,7 @@ data class User(
         const val ID_KEY = "id"
         const val EMAIL_KEY = "email"
         const val NAME_KEY = "name"
+        const val PASSWORD_KEY = "password"
         const val AVATAR_URL_KEY = "avatarUrl"
         const val LAST_UPDATED = "lastUpdated"
         const val LOCAL_LAST_UPDATED = "localUserLastUpdated"
@@ -39,6 +41,7 @@ data class User(
             val id = json[ID_KEY] as? String ?: ""
             val email = json[EMAIL_KEY] as? String ?: ""
             val name = json[NAME_KEY] as? String ?: ""
+            val password = json[PASSWORD_KEY] as? String ?: ""
             val avatarUrl = json[AVATAR_URL_KEY] as? String ?: ""
             val timestamp = json[LAST_UPDATED] as? Timestamp
             val lastUpdatedLongTimestamp = timestamp?.toDate()?.time
@@ -46,6 +49,7 @@ data class User(
                 id = id,
                 email = email,
                 name = name,
+                password = password,
                 avatarUrl = avatarUrl,
                 lastUpdated = lastUpdatedLongTimestamp
             )
@@ -57,6 +61,7 @@ data class User(
             ID_KEY to id,
             EMAIL_KEY to email,
             NAME_KEY to name,
+            PASSWORD_KEY to password,
             AVATAR_URL_KEY to avatarUrl,
             LAST_UPDATED to FieldValue.serverTimestamp()
         )

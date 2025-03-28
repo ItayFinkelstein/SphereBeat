@@ -1,14 +1,16 @@
-package fullstack.application.spherebeat
+package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.adapter.PostAdapter
-import fullstack.application.spherebeat.model.Post
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.ui.adapter.PlaylistAdapter
+import fullstack.application.spherebeat.model.Playlist
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -20,11 +22,11 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PlaylistFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PostFragment : Fragment() {
+class PlaylistFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PostAdapter
-    private lateinit var itemList: List<Post>
+    private lateinit var adapter: PlaylistAdapter
+    private lateinit var itemList: List<Playlist>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,66 +41,30 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val rootView = inflater.inflate(R.layout.fragment_post, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_lists, container, false)
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         /*// Sample data
         itemList = listOf(
-            Post(
-                R.drawable.elton_john_album, "Yellow Brick Road",
-                singer = "Elton John",
-                text = ""
-            ),
-            Post(
-                R.drawable.taylor_swift_album, "Timeless",
-                singer = "Taylor Swift",
-                text = ""
-            ),
-            Post(
-                R.drawable.beatles_album, "Yellow Submarine",
-                singer = "The Beatles",
-                text = ""
-            )
+            Playlist(R.drawable.elton_john_album, "Yellow Brick Road"),
+            Playlist(R.drawable.taylor_swift_album, "1989"),
+            Playlist(R.drawable.beatles_album, "The Beatles")
         )*/
-        // TODO: fix the above code
+        //TODO: Uncomment the above code and remove the below code
+        // Sample data
         itemList = listOf(
-            Post(
-                id = "1",
-                songName = "Yellow Brick Road",
-                singer = "Elton John",
-                songReleaseDate = 1973,
-                songLength = 240,
-                coverUrl = "R.drawable.elton_john_album",
-                rating = 5,
-                text = "",
-                likes = listOf()
-            ),
-            Post(
-                id = "2",
-                songName = "Timeless",
-                singer = "Taylor Swift",
-                songReleaseDate = 2014,
-                songLength = 231,
-                coverUrl = "R.drawable.taylor_swift_album",
-                rating = 4,
-                text = "",
-                likes = listOf()
-            ),
-            Post(
-                id = "3",
-                songName = "Yellow Submarine",
-                singer = "The Beatles",
-                songReleaseDate = 1968,
-                songLength = 431,
-                coverUrl = "R.drawable.beatles_album",
-                rating = 5,
-                text = "",
-                likes = listOf()
+            Playlist("1", "Yellow Brick Road", resources.getResourceEntryName(R.drawable.elton_john_album), emptyList()),
+            Playlist("2", "taylor swift album", resources.getResourceEntryName(R.drawable.taylor_swift_album), emptyList()),
+            Playlist("3", "The Beatles", resources.getResourceEntryName(R.drawable.beatles_album), emptyList()),
             )
-        )
 
-        adapter = PostAdapter(itemList)
+        adapter = PlaylistAdapter(itemList, object : PlaylistAdapter.OnPlaylistClickListener {
+            override fun onPlaylistClick(name: String, imageUrl: String) {
+                val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, imageUrl)
+                findNavController().navigate(action)
+        }});
+//
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment
         return rootView
