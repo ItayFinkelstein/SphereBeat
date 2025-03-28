@@ -90,10 +90,6 @@ class SignUpFragment : Fragment() {
         }
 
         signUpUser(binding.EmailTextInput.text.toString(), binding.PasswordTextInput.text.toString())
-
-
-
-        activity?.finish()
     }
 
     override fun onDestroyView() {
