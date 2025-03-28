@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.adapter.PlaylistSongsAdapter
@@ -23,7 +23,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PlaylistFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout), PlaylistSongsAdapter.OnItemClickListener {
+class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
     private var _binding: FragmentPlaylistSongsBinding? = null
     private val binding get() = _binding!!
     // TODO: Rename and change types of parameters
@@ -48,7 +48,9 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout), Playlist
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val args = PlaylistSongsFragmentArgs.fromBundle(requireArguments())
         val playlistName = args.playlistName
+
         binding.playlistSongTitle.text = playlistName
+        binding.topImage.setImageResource(resources.getIdentifier(args.image, "drawable", context?.packageName))
         // Sample data
         itemList = listOf(
             Song(
@@ -57,21 +59,20 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout), Playlist
                 "Elton John",
                 4000,
                 2,
-                R.drawable.elton_john_album.toString()
+                resources.getResourceEntryName(R.drawable.elton_john_album)
             ),
-//            Song(R.drawable.taylor_swift_album, "1989", "Taylor Swift"),
+            Song("2", "Bad Blood", "Taylor Swift", 5000, 2, resources.getResourceEntryName(R.drawable.taylor_swift_album)),
 //            Song(R.drawable.beatles_album, "Hey Jude", "The Beatles")
         )
 
         //adapter = PlaylistSongsAdapter(itemList, this)
-        adapter = PlaylistSongsAdapter(itemList)
+        adapter = PlaylistSongsAdapter(itemList, object : PlaylistSongsAdapter.OnPlaylistSongClickListener {
+            override fun onPlaylistSongClick(song: Song) {
+                val action = PlaylistSongsFragmentDirections.actionPlaylistSongsFragmentToViewSongFragment(song.name, song.singer, song.coverUrl)
+                findNavController().navigate(action)
+            }});
         binding.recyclerView.adapter = adapter
         // Inflate the layout for this fragment
         return binding.root
-    }
-
-    override fun onItemClick(song: Song) {
-        // Handle the song item click here
-        Toast.makeText(context, "Clicked on: ${song.name}", Toast.LENGTH_SHORT).show()
     }
 }
