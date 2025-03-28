@@ -19,7 +19,39 @@
         android:id="@+id/postFragment"
         android:name="fullstack.application.spherebeat.ui.PostFragment"
         android:label="Post"
-        tools:layout="@layout/fragment_post" />
+        tools:layout="@layout/fragment_post">
+        <action
+            android:id="@+id/action_postFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" >
+        </action>
+        <action
+            android:id="@+id/action_postFragment_to_showPostFragment"
+            app:destination="@id/showPostFragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="fullstack.application.spherebeat.ui.FragmentCreatePost"
+        android:label="Create Post"
+        tools:layout="@layout/fragment_create_post"/>
+    <fragment
+        android:id="@+id/showPostFragment"
+        android:name="fullstack.application.spherebeat.ui.ShowPostFragment"
+        android:label="Show Post"
+        tools:layout="@layout/fragment_show_post">
+        <argument
+            android:name="songName"
+            app:argType="string" />
+        <argument
+            android:name="songArtist"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/listsFragment"
         android:name="fullstack.application.spherebeat.ui.PlaylistFragment"

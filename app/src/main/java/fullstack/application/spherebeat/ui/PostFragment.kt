@@ -7,9 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.databinding.FragmentPostBinding
 import fullstack.application.spherebeat.ui.adapter.PostAdapter
 import fullstack.application.spherebeat.model.Post
 import fullstack.application.spherebeat.ui.viewModel.PostViewModel
@@ -25,6 +26,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class PostFragment : Fragment() {
+    private var _binding: FragmentPostBinding? = null
+    private val binding get() = _binding!!
     // TODO: Rename and change types of parameters
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
@@ -33,20 +36,15 @@ class PostFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentPostBinding.inflate(inflater, container, false)
 
-        val rootView = inflater.inflate(R.layout.fragment_post, container, false)
-        recyclerView = rootView.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         /*// Sample data
         itemList = listOf(
@@ -103,9 +101,18 @@ class PostFragment : Fragment() {
             )
         )
 
-        adapter = PostAdapter(postViewModel.postList.value)
-        recyclerView.adapter = adapter
-        // Inflate the layout for this fragment
+        adapter = PostAdapter(postViewModel.postList.value, object : PostAdapter.OnPostClickListener {
+            override fun onPostClick(name: String, singer: String, description: String, rating: Number) {
+                val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description, rating.toString())
+                findNavController().navigate(action)
+            }});
+
+        binding.recyclerView.adapter = adapter
+
+        binding.createPostButton.setOnClickListener {
+            //val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment()
+            //findNavController().navigate(action)
+        }
 
         Log.d("PostFragment", "onCreateView: postViewModel.postList.value: ${postViewModel.postList.value}")
 
@@ -114,7 +121,7 @@ class PostFragment : Fragment() {
             adapter?.notifyDataSetChanged()
         })
 
-        return rootView
+        return binding.root
     }
 
     companion object {

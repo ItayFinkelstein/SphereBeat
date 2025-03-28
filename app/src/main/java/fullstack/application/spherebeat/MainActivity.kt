@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 Log.d("MainActivity", "itemId + ${item.itemId}")
-                navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
+                //navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 true
             }
         }

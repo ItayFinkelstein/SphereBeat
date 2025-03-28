@@ -9,8 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.model.Post
 
-class PostAdapter(private var itemList: List<Post>?) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private var itemList: List<Post>?, private var onPostClickListener: OnPostClickListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
+    interface OnPostClickListener {
+        fun onPostClick(name: String, singer: String, description: String, rating: Number)
+    }
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.post_image)
         val textView: TextView = itemView.findViewById(R.id.post_text)
@@ -22,11 +25,16 @@ class PostAdapter(private var itemList: List<Post>?) : RecyclerView.Adapter<Post
         return PostViewHolder(view)
     }
 
+
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = itemList?.get(position)
         // holder.imageView.setImageResource(item.imageResId) TODO: Uncomment this line
         holder.textView.text = item?.songName
         holder.singerView.text = item?.singer
+        holder.itemView.setOnClickListener {
+            item?.let { it ->
+                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating) }
+        }
     }
 
     fun update(posts: List<Post>?) {
