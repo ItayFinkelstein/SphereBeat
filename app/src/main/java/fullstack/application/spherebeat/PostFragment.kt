@@ -39,7 +39,7 @@ class PostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val rootView = inflater.inflate(R.layout.fragment_lists, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_post, container, false)
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
