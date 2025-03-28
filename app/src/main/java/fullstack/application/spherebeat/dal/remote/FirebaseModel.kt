@@ -1,6 +1,7 @@
 package fullstack.application.spherebeat.dal.remote
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestoreSettings
@@ -17,7 +18,7 @@ class FirebaseModel {
 
     init {
         val settings = firestoreSettings {
-            setLocalCacheSettings(memoryCacheSettings {  })
+            setLocalCacheSettings(memoryCacheSettings { })
         }
         database.firestoreSettings = settings
     }
@@ -65,9 +66,18 @@ class FirebaseModel {
         database.collection(Constants.Collections.USERS_COLLECTION)
             .whereGreaterThan("lastUpdated", lastUpdated)
             .get()
-            .addOnSuccessListener { snapshot ->
-                val users = snapshot.toObjects(User::class.java)
-                callback(users)
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val users: MutableList<User> = mutableListOf()
+                        for (json in it.result) {
+                            users.add(User.fromJSON(json.data))
+                        }
+                        callback(users)
+                    }
+
+                    false -> callback(listOf())
+                }
             }
     }
 
@@ -76,9 +86,18 @@ class FirebaseModel {
         database.collection(Constants.Collections.POSTS_COLLECTION)
             .whereGreaterThan("lastUpdated", lastUpdated)
             .get()
-            .addOnSuccessListener { snapshot ->
-                val posts = snapshot.toObjects(Post::class.java)
-                callback(posts)
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val posts: MutableList<Post> = mutableListOf()
+                        for (json in it.result) {
+                            posts.add(Post.fromJSON(json.data))
+                        }
+                        callback(posts)
+                    }
+
+                    false -> callback(listOf())
+                }
             }
     }
 
@@ -107,9 +126,18 @@ class FirebaseModel {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION)
             .whereGreaterThan("lastUpdated", lastUpdated)
             .get()
-            .addOnSuccessListener { snapshot ->
-                val playlists = snapshot.toObjects(Playlist::class.java)
-                callback(playlists)
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val playlists: MutableList<Playlist> = mutableListOf()
+                        for (json in it.result) {
+                            playlists.add(Playlist.fromJSON(json.data))
+                        }
+                        callback(playlists)
+                    }
+
+                    false -> callback(listOf())
+                }
             }
     }
 
@@ -122,13 +150,15 @@ class FirebaseModel {
     }
 
     fun updatePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id).set(playlist)
+        database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id)
+            .set(playlist)
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
 
     fun deletePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id).delete()
+        database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id)
+            .delete()
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
