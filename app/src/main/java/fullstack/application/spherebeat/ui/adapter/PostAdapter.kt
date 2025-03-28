@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.model.Post
 
-class PostAdapter(private val itemList: List<Post>) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+class PostAdapter(private var itemList: List<Post>?) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.post_image)
@@ -23,13 +23,17 @@ class PostAdapter(private val itemList: List<Post>) : RecyclerView.Adapter<PostA
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        val item = itemList[position]
+        val item = itemList?.get(position)
         // holder.imageView.setImageResource(item.imageResId) TODO: Uncomment this line
-        holder.textView.text = item.songName
-        holder.singerView.text = item.singer
+        holder.textView.text = item?.songName
+        holder.singerView.text = item?.singer
+    }
+
+    fun update(posts: List<Post>?) {
+        this.itemList = posts
     }
 
     override fun getItemCount(): Int {
-        return itemList.size
+        return itemList?.size ?: 0
     }
 }

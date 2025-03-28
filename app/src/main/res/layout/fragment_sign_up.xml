@@ -101,7 +101,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Take Photo"
             android:src="@drawable/add_photo_icon"
-            android:tint="@color/blue" />
+            app:tint="@color/blue" />
     </LinearLayout>
 
     <Button

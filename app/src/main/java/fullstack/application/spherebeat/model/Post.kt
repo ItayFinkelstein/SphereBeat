@@ -7,7 +7,6 @@ import androidx.room.TypeConverters
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import fullstack.application.spherebeat.base.ApplicationContext
-import fullstack.application.spherebeat.model.User.Companion.LOCAL_LAST_UPDATED
 import fullstack.application.spherebeat.util.Converters
 
 @Entity(tableName = "posts")
@@ -45,7 +44,8 @@ data class Post(
         const val RATING_KEY = "rating"
         const val TEXT_KEY = "text"
         const val LIKES_KEY = "likes"
-        const val LAST_UPDATED_KEY = "lastUpdated"
+        const val LAST_UPDATED = "lastUpdated"
+        const val LOCAL_LAST_UPDATED = "localPostLastUpdated"
 
         fun fromJSON(json: Map<String, Any>): Post {
             val id = json[ID_KEY] as? String ?: ""
@@ -57,7 +57,7 @@ data class Post(
             val rating = (json[RATING_KEY] as? Number)?.toInt() ?: 1
             val text = json[TEXT_KEY] as? String ?: ""
             val likes = json[LIKES_KEY] as? List<String> ?: emptyList()
-            val timestamp = json[LAST_UPDATED_KEY] as? Timestamp
+            val timestamp = json[LAST_UPDATED] as? Timestamp
             val lastUpdatedLongTimestamp = timestamp?.toDate()?.time
             return Post(
                 id = id,
@@ -85,6 +85,6 @@ data class Post(
             RATING_KEY to rating,
             TEXT_KEY to text,
             LIKES_KEY to likes,
-            LAST_UPDATED_KEY to FieldValue.serverTimestamp()
+            LAST_UPDATED to FieldValue.serverTimestamp()
         )
 }

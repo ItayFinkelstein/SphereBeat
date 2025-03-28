@@ -1,4 +1,4 @@
-package fullstack.application.spherebeat.dao
+package fullstack.application.spherebeat.dal.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

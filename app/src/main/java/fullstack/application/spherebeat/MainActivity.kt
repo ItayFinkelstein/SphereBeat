@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.google.firebase.firestore.FirebaseFirestore
+import fullstack.application.spherebeat.dal.local.AppLocalDb
 import fullstack.application.spherebeat.databinding.ActivityMainBinding
 import fullstack.application.spherebeat.ui.AuthActivity
 
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        AppLocalDb.initialize(this)
+
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -48,8 +51,6 @@ class MainActivity : AppCompatActivity() {
         val menu = binding.mainBottomNavigation.menu
         menu.removeItem(R.id.logout)
         navController?.let { NavigationUI.setupWithNavController(binding.mainBottomNavigation, it) }
-
-        testFirebaseConnection()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,26 +78,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-    }
-
-    fun testFirebaseConnection() {
-        val db = FirebaseFirestore.getInstance()
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815,
-        )
-
-// Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
     }
 
 }

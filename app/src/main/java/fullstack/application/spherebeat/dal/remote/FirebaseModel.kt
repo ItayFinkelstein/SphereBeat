@@ -9,18 +9,29 @@ import com.google.firebase.firestore.memoryCacheSettings
 import com.google.firebase.storage.FirebaseStorage
 import fullstack.application.spherebeat.base.Constants
 import fullstack.application.spherebeat.model.*
+import fullstack.application.spherebeat.util.toFirebaseTimestamp
 import java.io.ByteArrayOutputStream
 
 class FirebaseModel {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val database: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val database: FirebaseFirestore
     private val storage: FirebaseStorage = FirebaseStorage.getInstance()
 
     init {
+        database = FirebaseFirestore.getInstance()
         val settings = firestoreSettings {
             setLocalCacheSettings(memoryCacheSettings { })
         }
         database.firestoreSettings = settings
+    }
+
+    companion object {
+        @Volatile private var instance: FirebaseModel? = null
+
+        fun getInstance(): FirebaseModel =
+            instance ?: synchronized(this) {
+                instance ?: FirebaseModel().also { instance = it }
+            }
     }
 
     // --------------------------------------- USER AUTH ----------------------------------------------
@@ -28,8 +39,8 @@ class FirebaseModel {
         return auth.currentUser?.uid
     }
 
-    fun signUp(newUser: User, password: String, callback: (Boolean) -> Unit) {
-        auth.createUserWithEmailAndPassword(newUser.email, password)
+    fun signUp(newUser: User, callback: (Boolean) -> Unit) {
+        auth.createUserWithEmailAndPassword(newUser.email, newUser.password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     newUser.id = auth.currentUser?.uid ?: ""
@@ -64,7 +75,7 @@ class FirebaseModel {
 
     fun getAllUsersSince(lastUpdated: Long, callback: (List<User>) -> Unit) {
         database.collection(Constants.Collections.USERS_COLLECTION)
-            .whereGreaterThan("lastUpdated", lastUpdated)
+            .whereGreaterThanOrEqualTo(User.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
@@ -84,19 +95,25 @@ class FirebaseModel {
     // --------------------------------------- POSTS ----------------------------------------------
     fun getAllPostsSince(lastUpdated: Long, callback: (List<Post>) -> Unit) {
         database.collection(Constants.Collections.POSTS_COLLECTION)
-            .whereGreaterThan("lastUpdated", lastUpdated)
+            .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
-                when (it.isSuccessful) {
-                    true -> {
+                if (it.isSuccessful) {
+                    Log.d("FirebaseModel", "Query successful: ${it.isSuccessful}")
+                    if (it.result.isEmpty) {
+                        Log.d("FirebaseModel", "No posts found")
+                    } else {
+                        Log.d("FirebaseModel", "Number of posts found: ${it.result.size()}")
                         val posts: MutableList<Post> = mutableListOf()
+
                         for (json in it.result) {
                             posts.add(Post.fromJSON(json.data))
                         }
                         callback(posts)
                     }
-
-                    false -> callback(listOf())
+                } else {
+                    Log.e("FirebaseModel", "Query failed: ${it.exception}")
+                    callback(listOf())
                 }
             }
     }
@@ -124,7 +141,7 @@ class FirebaseModel {
     // --------------------------------------- PLAYLISTS ----------------------------------------------
     fun getAllPlaylistsSince(lastUpdated: Long, callback: (List<Playlist>) -> Unit) {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION)
-            .whereGreaterThan("lastUpdated", lastUpdated)
+            .whereGreaterThanOrEqualTo(Playlist.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
@@ -176,5 +193,45 @@ class FirebaseModel {
                 }
             }
             .addOnFailureListener { callback(null) }
+    }
+
+    // --------------------------------------- SONGS ----------------------------------------------
+    fun getAllSongsSince(lastUpdated: Long, callback: (List<Song>) -> Unit) {
+        database.collection(Constants.Collections.SONGS_COLLECTION)
+            .whereGreaterThanOrEqualTo(Song.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
+            .get()
+            .addOnCompleteListener {
+                when (it.isSuccessful) {
+                    true -> {
+                        val songs: MutableList<Song> = mutableListOf()
+                        for (json in it.result) {
+                            songs.add(Song.fromJSON(json.data))
+                        }
+                        callback(songs)
+                    }
+
+                    false -> callback(listOf())
+                }
+            }
+    }
+
+    fun addSong(song: Song, callback: (Boolean) -> Unit) {
+        val songRef = database.collection(Constants.Collections.SONGS_COLLECTION).document()
+        song.id = songRef.id
+        songRef.set(song)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
+
+    fun updateSong(song: Song, callback: (Boolean) -> Unit) {
+        database.collection(Constants.Collections.SONGS_COLLECTION).document(song.id).set(song)
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
+
+    fun deleteSong(song: Song, callback: (Boolean) -> Unit) {
+        database.collection(Constants.Collections.SONGS_COLLECTION).document(song.id).delete()
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
     }
 }

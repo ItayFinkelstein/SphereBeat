@@ -1,15 +1,18 @@
 package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.ui.adapter.PostAdapter
 import fullstack.application.spherebeat.model.Post
+import fullstack.application.spherebeat.ui.viewModel.PostViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +29,7 @@ class PostFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PostAdapter
     private lateinit var itemList: List<Post>
+    private val postViewModel: PostViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -99,9 +103,17 @@ class PostFragment : Fragment() {
             )
         )
 
-        adapter = PostAdapter(itemList)
+        adapter = PostAdapter(postViewModel.postList.value)
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment
+
+        Log.d("PostFragment", "onCreateView: postViewModel.postList.value: ${postViewModel.postList.value}")
+
+        postViewModel.postList.observe(viewLifecycleOwner, {
+            adapter?.update(it)
+            adapter?.notifyDataSetChanged()
+        })
+
         return rootView
     }
 
