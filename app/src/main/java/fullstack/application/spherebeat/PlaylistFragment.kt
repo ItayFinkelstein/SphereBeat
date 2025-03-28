@@ -1,13 +1,16 @@
 package fullstack.application.spherebeat
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.adapter.PlaylistAdapter
+import fullstack.application.spherebeat.adapter.PlaylistSongsAdapter
 import fullstack.application.spherebeat.model.Playlist
 
 // TODO: Rename parameter arguments, choose names that match
@@ -52,12 +55,17 @@ class PlaylistFragment : Fragment() {
         //TODO: Uncomment the above code and remove the below code
         // Sample data
         itemList = listOf(
-            Playlist("1", "Yellow Brick Road", "R.drawable.elton_john_album", emptyList()),
-            Playlist("2", "taylor_swift_album", "R.drawable.taylor_swift_album", emptyList()),
-            Playlist("3", "beatles_album", "R.drawable.beatles_album", emptyList()),
+            Playlist("1", "Yellow Brick Road", R.drawable.elton_john_album.toString(), emptyList()),
+            Playlist("2", "taylor swift album", "R.drawable.taylor_swift_album", emptyList()),
+            Playlist("3", "The Beatles", "R.drawable.beatles_album", emptyList()),
             )
 
-        adapter = PlaylistAdapter(itemList)
+        adapter = PlaylistAdapter(itemList, object : PlaylistAdapter.OnPlaylistClickListener {
+            override fun onPlaylistClick(name: String) {
+                val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name)
+                findNavController().navigate(action)
+        }});
+//
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment
         return rootView

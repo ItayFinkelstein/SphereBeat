@@ -24,7 +24,23 @@
         android:id="@+id/listsFragment"
         android:name="fullstack.application.spherebeat.PlaylistFragment"
         android:label="Lists"
-        tools:layout="@layout/fragment_lists" />
+        tools:layout="@layout/fragment_lists" >
+        <action
+            android:id="@+id/action_playlistFragment_to_playlistSongFragment"
+            app:destination="@id/playlistSongFragment" >
+            <argument
+                android:name="playlistName"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/playlistSongFragment"
+        android:name="fullstack.application.spherebeat.PlaylistSongsFragment"
+        tools:layout="@layout/fragment_playlist_songs">
+    <argument
+        android:name="playlistName"
+        app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="fullstack.application.spherebeat.ProfileFragment"
