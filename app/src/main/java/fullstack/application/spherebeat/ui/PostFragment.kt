@@ -102,8 +102,10 @@ class PostFragment : Fragment() {
         )
 
         adapter = PostAdapter(postViewModel.postList.value, object : PostAdapter.OnPostClickListener {
-            override fun onPostClick(name: String, singer: String, description: String, rating: Number) {
-                val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description, rating.toString())
+            override fun onPostClick(name: String, singer: String, description: String, rating: Float) {
+                val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description,
+                    rating
+                )
                 findNavController().navigate(action)
             }});
 

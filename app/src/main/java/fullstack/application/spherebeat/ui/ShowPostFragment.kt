@@ -26,7 +26,7 @@ class ShowPostFragment : Fragment() {
         binding.showPostSongTitleView.text = args.songName
         binding.showPostSingerView.text = args.songArtist
         binding.showPostDescription.text = args.description
-        binding.showPostRatingBar.rating = args.rating.toFloat()
+        binding.showPostRatingBar.rating = args.rating
 
 
         return binding.root

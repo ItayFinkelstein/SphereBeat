@@ -12,7 +12,7 @@ import fullstack.application.spherebeat.model.Post
 class PostAdapter(private var itemList: List<Post>?, private var onPostClickListener: OnPostClickListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     interface OnPostClickListener {
-        fun onPostClick(name: String, singer: String, description: String, rating: Number)
+        fun onPostClick(name: String, singer: String, description: String, rating: Float)
     }
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.post_image)
@@ -33,7 +33,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
         holder.singerView.text = item?.singer
         holder.itemView.setOnClickListener {
             item?.let { it ->
-                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating) }
+                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating.toFloat()) }
         }
     }
 
