@@ -58,7 +58,6 @@ class SignUpFragment : Fragment() {
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    //Toast.makeText(this, "Sign Up failed.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }

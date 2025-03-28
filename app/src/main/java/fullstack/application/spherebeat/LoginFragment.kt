@@ -32,7 +32,6 @@ class LoginFragment : Fragment() {
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
-                    //Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
             }
