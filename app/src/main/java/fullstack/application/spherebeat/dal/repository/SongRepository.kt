@@ -1,10 +1,15 @@
 package fullstack.application.spherebeat.dal.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import fullstack.application.spherebeat.dal.remote.FirebaseModel
 import fullstack.application.spherebeat.model.Song
 import fullstack.application.spherebeat.dal.local.AppLocalDb
 import fullstack.application.spherebeat.dal.local.AppLocalDbRepository
+import fullstack.application.spherebeat.dal.networking.SongsClient
+import fullstack.application.spherebeat.dal.networking.SpotifyAuth
+import java.text.SimpleDateFormat
+import java.util.Locale
 import java.util.concurrent.Executors
 
 class SongRepository {
@@ -67,5 +72,69 @@ class SongRepository {
                 Song.lastUpdated = currentTime
             }
         }
+    }
+
+    fun getSongsFromApi(songName: String, accessToken: String, callback: (Boolean) -> Unit) {
+        val lastUpdated = Song.lastUpdated
+        executor.execute {
+            try {
+                var currentTime = lastUpdated
+
+                val request = SongsClient.songsApiClient.searchTracks(songName, "track", "Bearer $accessToken")
+                val response = request.execute()
+
+                if (response.isSuccessful) {
+                    val songs = response.body()?.tracks?.items?.map { track ->
+                        val id = track.id ?: ""
+                        val name = track.name ?: ""
+                        val singer = track.artists?.firstOrNull()?.name ?: "Unknown"
+                        val cover = track.album?.images?.getOrNull(2)?.url ?: ""
+                        val releaseDate = parseReleaseDate(track.album?.release_date)
+                        val length = track.duration_ms ?: 0
+
+                        Log.d("SpotifyTrack", "ID: $id, Name: $name, Singer: $singer, Cover: $cover Length: $length, Release Date: $releaseDate")
+                        Song(id, name, singer, releaseDate, length, cover)
+                    } ?: emptyList()
+
+                    for (song in songs) {
+                        localDb.songDao().insert(song)
+                        song.lastUpdated?.let {
+                            if (currentTime < it) {
+                                currentTime = it
+                            }
+                        }
+                    }
+                    Song.lastUpdated = currentTime
+                    callback(true)
+                } else {
+                    Log.e("SpotifyTrack", "Failed to fetch songs! response code: ${response.code()}, message: ${response.message()}, error body: ${response.errorBody()?.string()}")
+                    callback(false)
+                }
+            } catch (e: Exception) {
+                Log.e("TAG", "Failed to fetch songs! with exception ${e}")
+                callback(false)
+            }
+        }
+    }
+
+    private fun parseReleaseDate(dateString: String?): Long {
+        if (dateString == null) return 0L
+        val formats = listOf("yyyy-MM-dd", "yyyy-MM", "yyyy")
+        for (format in formats) {
+            try {
+                val dateFormat = SimpleDateFormat(format, Locale.getDefault())
+                return dateFormat.parse(dateString)?.time ?: 0L
+            } catch (e: java.text.ParseException) {
+                // Continue to the next format
+            }
+        }
+        return 0L
+    }
+
+    fun getAccessToken(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
+        SpotifyAuth.fetchAccessToken(
+            onSuccess = { token -> onSuccess(token) },
+            onError = { error -> onError(error) }
+        )
     }
 }
