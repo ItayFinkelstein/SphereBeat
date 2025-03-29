@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.model.Song
 
-class PlaylistSongsAdapter(private val itemList: List<Song>, private val onPlaylistSongClickListener: OnPlaylistSongClickListener) : RecyclerView.Adapter<PlaylistSongsAdapter.PlaylistSongsViewHolder>() {
+class PlaylistSongsAdapter(private var itemList: List<Song>, private val onPlaylistSongClickListener: OnPlaylistSongClickListener) : RecyclerView.Adapter<PlaylistSongsAdapter.PlaylistSongsViewHolder>() {
 
     interface OnPlaylistSongClickListener {
         fun onPlaylistSongClick(song: Song)
@@ -31,6 +31,14 @@ class PlaylistSongsAdapter(private val itemList: List<Song>, private val onPlayl
                 //listener.onItemClick(song) // Call the listener's method when an item is clicked
             }
         }
+
+    }
+
+    fun update(newSongs: List<Song>) {
+        itemList = newSongs
+        notifyDataSetChanged()
+
+    // Notify the adapter that the dataset has changed
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistSongsViewHolder {

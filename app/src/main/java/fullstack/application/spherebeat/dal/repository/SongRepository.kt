@@ -74,7 +74,7 @@ class SongRepository {
         }
     }
 
-    fun getSongsFromApi(songName: String, accessToken: String, callback: (List<Song>) -> Unit) {
+    fun getSongsFromApi(songName: String, accessToken: String, callback: (List<Song>, Boolean) -> Unit) {
         executor.execute {
             try {
                 val request = SongsClient.songsApiClient.searchTracks(songName, "track",5, "Bearer $accessToken")
@@ -93,14 +93,14 @@ class SongRepository {
                         Song(id, name, singer, releaseDate, length, cover)
                     } ?: emptyList()
 
-                    callback(songs)
+                    callback(songs, true)
                 } else {
                     Log.e("SpotifyTrack", "Failed to fetch songs! response code: ${response.code()}, message: ${response.message()}, error body: ${response.errorBody()?.string()}")
-                    callback(emptyList())
+                    callback(emptyList(), false)
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "Failed to fetch songs! with exception ${e}")
-                callback(emptyList())
+                callback(emptyList(), false)
             }
         }
     }
