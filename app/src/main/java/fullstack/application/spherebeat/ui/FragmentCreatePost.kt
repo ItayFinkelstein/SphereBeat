@@ -8,17 +8,20 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.databinding.FragmentCreatePostBinding
 import fullstack.application.spherebeat.databinding.FragmentLoginBinding
 import fullstack.application.spherebeat.databinding.FragmentViewSongBinding
 import fullstack.application.spherebeat.model.Post
+import fullstack.application.spherebeat.ui.viewModel.PostViewModel
 
 class FragmentCreatePost : Fragment() {
     private var _binding: FragmentCreatePostBinding? = null
     private val binding get() = _binding!!
-    private val postRepository: PostRepository = PostRepository()
+    private val postViewModel: PostViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,19 +41,23 @@ class FragmentCreatePost : Fragment() {
         }
 
         binding.createPostSubmitButton.setOnClickListener {
-            postRepository.addPost(
-                Post(
-                    null.toString(),
-                    binding.createPostSongTitleView.text.toString(),
-                    binding.createPostSingerView.text.toString(),
-                    90,
-                    8,
-                    "",
-                    binding.ratingBar.rating.toInt(),
-                    text = binding.postDescription.text.toString(),
-                    likes = emptyList(),
-                ),
-                callback = {Log.v("Save post", "saved post")},
+            val post = Post(
+                null.toString(),
+                binding.createPostSongTitleView.text.toString(),
+                binding.createPostSingerView.text.toString(),
+                90,
+                8,
+                "",
+                binding.ratingBar.rating.toInt(),
+                text = binding.postDescription.text.toString(),
+                likes = emptyList(),
+            )
+            postViewModel.addPost(
+                post,
+                {
+                    Log.v("Save post", "saved post")
+                    findNavController().popBackStack()
+                },
             )
         }
 

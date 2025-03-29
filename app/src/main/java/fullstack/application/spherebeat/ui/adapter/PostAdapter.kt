@@ -73,6 +73,11 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
                 )
             }
         }
+
+        holder.binding.postDeleteButton.setOnClickListener {
+            Log.v("Post", "Delete post")
+            //postRepository.deletePost()
+        }
     }
 
     fun update(posts: List<Post>?) {
