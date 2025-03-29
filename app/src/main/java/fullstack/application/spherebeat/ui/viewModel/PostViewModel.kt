@@ -38,6 +38,12 @@ class PostViewModel : ViewModel() {
         }
     }
 
+    fun likePost(post: Post, userId: String?, callback: (Boolean) -> Unit) {
+        postRepository.likePost(post, userId) { success ->
+            callback(success)
+        }
+    }
+
     fun updatePost(post: Post, callback: (Boolean) -> Unit) {
         _loadingState.value = LoadingState.LOADING
         postRepository.updatePost(post) { success ->
@@ -51,6 +57,16 @@ class PostViewModel : ViewModel() {
     fun deletePost(post: Post, callback: (Boolean) -> Unit) {
         _loadingState.value = LoadingState.LOADING
         postRepository.deletePost(post) { success ->
+            if (success) {
+                _loadingState.postValue(LoadingState.NOT_LOADING)
+            }
+            callback(success)
+        }
+    }
+
+    fun deletePostById(postId: String, callback: (Boolean) -> Unit) {
+        _loadingState.value = LoadingState.LOADING
+        postRepository.deletePostById(postId) { success ->
             if (success) {
                 _loadingState.postValue(LoadingState.NOT_LOADING)
             }

@@ -3,6 +3,7 @@ package fullstack.application.spherebeat.ui.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
 import fullstack.application.spherebeat.model.User
 import fullstack.application.spherebeat.dal.repository.UserRepository
 
@@ -16,6 +17,10 @@ class UserViewModel : ViewModel() {
     enum class LoadingState {
         LOADING,
         NOT_LOADING
+    }
+
+    fun getLoggedUser(): FirebaseUser? {
+        return userRepository.getLoggedUser()
     }
 
     fun getUserById(userId: String): LiveData<User> {

@@ -1,6 +1,7 @@
 package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,8 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
         val playlistName = args.playlistName
 
         binding.playlistSongTitle.text = playlistName
-        binding.topImage.setImageResource(resources.getIdentifier(args.image, "drawable", context?.packageName))
+        Log.d("PlaylistSongsFragment", "Playlist name: $playlistName")
+        binding.topImage.setImageResource(R.drawable.taylor_swift_album)
         // Sample data
         itemList = listOf(
             Song(
@@ -59,7 +61,7 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
                 "Elton John",
                 4000,
                 2,
-                resources.getResourceEntryName(R.drawable.elton_john_album)
+                resources.getResourceEntryName(R.drawable.taylor_swift_album)
             ),
             Song("2", "Bad Blood", "Taylor Swift", 5000, 2, resources.getResourceEntryName(R.drawable.taylor_swift_album)),
 //            Song(R.drawable.beatles_album, "Hey Jude", "The Beatles")

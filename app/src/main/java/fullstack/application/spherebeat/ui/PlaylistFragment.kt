@@ -1,99 +1,72 @@
 package fullstack.application.spherebeat.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.databinding.FragmentListsBinding
 import fullstack.application.spherebeat.ui.adapter.PlaylistAdapter
-import fullstack.application.spherebeat.model.Playlist
+import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PlaylistFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class PlaylistFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private lateinit var recyclerView: RecyclerView
+    private var binding: FragmentListsBinding? = null
     private lateinit var adapter: PlaylistAdapter
-    private lateinit var itemList: List<Playlist>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val playlistViewModel: PlaylistViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
+        binding = FragmentListsBinding.inflate(inflater, container, false)
+        val rootView = binding!!.root
 
-        val rootView = inflater.inflate(R.layout.fragment_lists, container, false)
-        recyclerView = rootView.findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        /*// Sample data
-        itemList = listOf(
-            Playlist(R.drawable.elton_john_album, "Yellow Brick Road"),
-            Playlist(R.drawable.taylor_swift_album, "1989"),
-            Playlist(R.drawable.beatles_album, "The Beatles")
-        )*/
-        //TODO: Uncomment the above code and remove the below code
-        // Sample data
-        itemList = listOf(
-            Playlist("1", "Yellow Brick Road", resources.getResourceEntryName(R.drawable.elton_john_album), emptyList()),
-            Playlist("2", "taylor swift album", resources.getResourceEntryName(R.drawable.taylor_swift_album), emptyList()),
-            Playlist("3", "The Beatles", resources.getResourceEntryName(R.drawable.beatles_album), emptyList()),
-            )
-
-        adapter = PlaylistAdapter(itemList, object : PlaylistAdapter.OnPlaylistClickListener {
+        binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = PlaylistAdapter(playlistViewModel.playlistList.value, object : PlaylistAdapter.OnPlaylistClickListener {
             override fun onPlaylistClick(name: String, imageUrl: String) {
                 val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, imageUrl)
                 findNavController().navigate(action)
-        }});
+            }
+        })
+        binding!!.recyclerView.adapter = adapter
 
-        val createPlaylistButton: Button = rootView.findViewById(R.id.create_playlist_button);
-        createPlaylistButton.setOnClickListener {
+        playlistViewModel.playlistList.observe(viewLifecycleOwner, { playlists ->
+            adapter.update(playlists)
+            binding?.progressBar?.visibility = View.GONE
+        })
+
+        binding!!.createPlaylistButton.setOnClickListener {
             val action = PlaylistFragmentDirections.actionPlaylistFragmentToCreatePlaylistFragment()
             findNavController().navigate(action)
         }
-//
-        recyclerView.adapter = adapter
-        // Inflate the layout for this fragment
+
+        binding?.swipeToRefresh?.setOnRefreshListener {
+            playlistViewModel.refresh()
+        }
+
+        playlistViewModel.loadingState.observe(viewLifecycleOwner) { state ->
+            binding?.swipeToRefresh?.isRefreshing = state == PlaylistViewModel.LoadingState.LOADING
+        }
+
         return rootView
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            PlaylistFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllPlaylists()
+    }
+
+    private fun getAllPlaylists() {
+        binding?.progressBar?.visibility = View.VISIBLE
+        playlistViewModel.refresh()
     }
 }

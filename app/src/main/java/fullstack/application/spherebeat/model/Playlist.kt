@@ -3,11 +3,10 @@ package fullstack.application.spherebeat.model
 import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FieldValue
 import fullstack.application.spherebeat.base.ApplicationContext
-import fullstack.application.spherebeat.util.Converters
+import fullstack.application.spherebeat.model.Post.Companion
 
 @Entity(tableName = "playlists")
 data class Playlist(
@@ -15,13 +14,16 @@ data class Playlist(
     var id: String,
     val name: String,
     val coverUrl: String,
-    @TypeConverters(Converters::class)
-    val songs: List<Song>, // List of songs
+    val songs: List<String>,
+    val likes: List<String>,  // List of user IDs
     val lastUpdated: Long? = null
 ) {
     companion object {
         var lastUpdated: Long
-            get() = ApplicationContext.Globals.context?.getSharedPreferences("TAG", Context.MODE_PRIVATE)
+            get() = ApplicationContext.Globals.context?.getSharedPreferences(
+                "TAG",
+                Context.MODE_PRIVATE
+            )
                 ?.getLong(LOCAL_LAST_UPDATED, 0) ?: 0
             set(value) {
                 ApplicationContext.Globals.context
@@ -34,6 +36,7 @@ data class Playlist(
         const val NAME_KEY = "name"
         const val COVER_URL_KEY = "coverUrl"
         const val SONGS_KEY = "songs"
+        const val LIKES_KEY = "likes"
         const val LAST_UPDATED = "lastUpdated"
         const val LOCAL_LAST_UPDATED = "localPlaylistLastUpdated"
 
@@ -41,20 +44,22 @@ data class Playlist(
             val id = json[ID_KEY] as? String ?: ""
             val name = json[NAME_KEY] as? String ?: ""
             val coverUrl = json[COVER_URL_KEY] as? String ?: ""
-            val songList = (json[SONGS_KEY] as? List<Map<String, Any>> ?: emptyList())
-                .map { Song.fromJSON(it) }
+            val songList = json[SONGS_KEY] as? List<String> ?: emptyList()
+            val likes = json[Post.LIKES_KEY] as? List<String> ?: emptyList()
             val timestamp = json[LAST_UPDATED] as? Timestamp
             val lastUpdatedLongTimestamp = timestamp?.toDate()?.time
-            return Playlist(id, name, coverUrl, songList, lastUpdatedLongTimestamp)
+            return Playlist(id, name, coverUrl, songList, likes, lastUpdatedLongTimestamp)
         }
     }
 
-    val json: Map<String, Any>
-        get() = hashMapOf(
+    fun toJson(): Map<String, Any> {
+        return hashMapOf(
             ID_KEY to id,
             NAME_KEY to name,
             COVER_URL_KEY to coverUrl,
-            SONGS_KEY to songs.map { it.json },
+            SONGS_KEY to songs,
+            LIKES_KEY to likes,
             LAST_UPDATED to FieldValue.serverTimestamp()
         )
+    }
 }

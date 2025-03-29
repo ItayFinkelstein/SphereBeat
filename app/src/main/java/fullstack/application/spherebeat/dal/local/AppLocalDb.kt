@@ -15,7 +15,7 @@ import fullstack.application.spherebeat.model.Song
 import fullstack.application.spherebeat.model.User
 import fullstack.application.spherebeat.util.Converters
 
-@Database(entities = [User::class, Post::class, Song::class, Playlist::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Post::class, Song::class, Playlist::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppLocalDbRepository: RoomDatabase() {
     abstract fun userDao(): UserDao

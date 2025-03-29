@@ -12,10 +12,12 @@ import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.dal.repository.UserRepository
 import fullstack.application.spherebeat.databinding.PostLayoutBinding
 import fullstack.application.spherebeat.model.Post
+import fullstack.application.spherebeat.ui.viewModel.PostViewModel
+import fullstack.application.spherebeat.ui.viewModel.UserViewModel
 
 class PostAdapter(private var itemList: List<Post>?, private var onPostClickListener: OnPostClickListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
-    private val userRepository: UserRepository = UserRepository()
-    private val postRepository: PostRepository = PostRepository()
+    private val userViewModel: UserViewModel = UserViewModel()
+    private val postViewModel: PostViewModel = PostViewModel()
 
     interface OnPostClickListener {
         fun onPostClick(name: String, singer: String, description: String, rating: Float)
@@ -30,14 +32,14 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = itemList?.get(position)
-        //holder.binding.post.text = item?.songName
-        holder.binding.postSinger.text = item?.singer
+        holder.binding.songName.text = item?.songName
+        holder.binding.singer.text = item?.singer
         holder.binding.postImage.setImageResource(R.drawable.icons_song)
         holder.binding.rating.text = "${item?.rating.toString()} / 5"
-        holder.binding.postText.text = item?.text
+        holder.binding.description.text = item?.text
 
         holder.binding.likeButton.setImageResource(
-            if (userRepository.getLoggedUser()?.let { item?.likes?.contains(it.uid) } == true) {
+            if (userViewModel.getLoggedUser()?.let { item?.likes?.contains(it.uid) } == true) {
                 R.drawable.heart_filled
             } else {
                 R.drawable.heart_unfilled
@@ -46,9 +48,9 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
         holder.binding.likeButton.setOnClickListener {
             if (item != null) {
-                postRepository.likePost(item, userRepository.getLoggedUser()?.uid) {
+                postViewModel.likePost(item, userViewModel.getLoggedUser()?.uid) {
                     holder.binding.likeButton.setImageResource(
-                        if (userRepository.getLoggedUser()?.let { item.likes.contains(it.uid) } == true) {
+                        if (userViewModel.getLoggedUser()?.let { item.likes.contains(it.uid) } == true) {
                             R.drawable.heart_filled
                         } else {
                             R.drawable.heart_unfilled
@@ -77,7 +79,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
         holder.binding.postDeleteButton.setOnClickListener {
             Log.v("Post", "Delete post")
             if (item != null) {
-                postRepository.deletePostById(item.id, {})
+                postViewModel.deletePostById(item.id, {})
             } else {
                 Log.v("Post", "Can't delete because item is null")
             }
