@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.google.firebase.storage)
     implementation(platform(libs.firebase.bom))
 
+    implementation(libs.cloudinary.android)
+    implementation(libs.picasso)
+
     implementation(libs.room.runtime)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
