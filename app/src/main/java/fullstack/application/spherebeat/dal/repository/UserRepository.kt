@@ -68,7 +68,7 @@ class UserRepository {
         firebaseModel.getAllUsersSince(lastUpdated) { users ->
             executor.execute {
                 var currentTime = lastUpdated
-                localDb.userDao().clear()
+                //localDb.userDao().clear()
                 for (user in users) {
                     localDb.userDao().insert(user)
                     user.lastUpdated?.let {

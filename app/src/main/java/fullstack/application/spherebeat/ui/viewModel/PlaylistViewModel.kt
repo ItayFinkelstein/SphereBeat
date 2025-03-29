@@ -10,7 +10,6 @@ import fullstack.application.spherebeat.dal.repository.PlaylistRepository
 class PlaylistViewModel : ViewModel() {
     private val playlistRepository: PlaylistRepository = PlaylistRepository()
     val playlistList: LiveData<List<Playlist>> = playlistRepository.getAllPlaylists()
-    private val imageRepository: ImageRepository = ImageRepository()
 
 
     private val _loadingState = MutableLiveData<LoadingState>()
