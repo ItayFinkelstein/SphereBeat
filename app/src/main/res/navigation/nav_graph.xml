@@ -88,6 +88,9 @@
             <argument
                 android:name="playlistName"
                 app:argType="string" />
+            <argument
+                android:name="playlistId"
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_playlistFragment_to_createPlaylistFragment"
@@ -106,6 +109,9 @@
             android:id="@+id/action_playlistSongsFragment_to_viewSongFragment"
             app:destination="@id/viewSongFragment" >
             <argument
+                android:name="songId"
+                app:argType="string" />
+            <argument
                 android:name="songName"
                 app:argType="string" />
             <argument
@@ -116,6 +122,9 @@
         android:name="playlistName"
         app:argType="string" />
         <argument
+            android:name="playlistId"
+            app:argType="string" />
+        <argument
             android:name="image"
             app:argType="string"/>
     </fragment>
@@ -123,6 +132,9 @@
         android:id="@+id/viewSongFragment"
         android:name="fullstack.application.spherebeat.ui.ViewSongFragment"
         tools:layout="@layout/fragment_view_song">
+        <argument
+            android:name="songId"
+            app:argType="string" />
         <argument
             android:name="songName"
             app:argType="string" />
