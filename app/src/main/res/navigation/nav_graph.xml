@@ -129,5 +129,10 @@
         android:name="fullstack.application.spherebeat.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="fullstack.application.spherebeat.ui.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
 
 </navigation>
