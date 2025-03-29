@@ -37,7 +37,7 @@ class SearchFragment : Fragment() {
         val adapter = SearchSongAdapter(songsFromApi, object : SearchSongAdapter.OnSearchSongClickListener {
             override fun onSearchSongClick(song: Song) {
                 val action = SearchFragmentDirections.actionSearchFragmentToViewSongFragment(
-                    song.name, song.singer, song.coverUrl, song.id)
+                    songName = song.name, artistName = song.singer, imageUrl = song.coverUrl, songId = song.id)
                 findNavController().navigate(action)
             }});
         binding.recyclerView.adapter = adapter
