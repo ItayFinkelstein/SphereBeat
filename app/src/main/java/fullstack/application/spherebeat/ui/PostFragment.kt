@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
@@ -28,14 +29,6 @@ class PostFragment : Fragment() {
         val rootView = binding!!.root
 
         binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = PostAdapter(emptyList()) // Initialize with an empty list
-        binding!!.recyclerView.adapter = adapter
-
-        postViewModel.postList.observe(viewLifecycleOwner, { posts ->
-            adapter.update(posts)
-
-            binding?.progressBar?.visibility = View.GONE
-        })
         adapter = PostAdapter(postViewModel.postList.value, object : PostAdapter.OnPostClickListener {
             override fun onPostClick(name: String, singer: String, description: String, rating: Float) {
                 val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description,
@@ -46,15 +39,23 @@ class PostFragment : Fragment() {
             override fun onEditPostClick(name: String, singer: String, description: String, rating: Float) {
                 val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, name, singer, description,
 
-                )
+                    )
                 findNavController().navigate(action)
             }
 
         });
+        binding!!.recyclerView.adapter = adapter
 
-        binding.recyclerView.adapter = adapter
+        postViewModel.postList.observe(viewLifecycleOwner, { posts ->
+            adapter.update(posts)
 
-        binding.createPostButton.setOnClickListener {
+            binding?.progressBar?.visibility = View.GONE
+        })
+
+
+        binding!!.recyclerView.adapter = adapter
+
+        binding!!.createPostButton.setOnClickListener {
             val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment(6.0F)
             findNavController().navigate(action)
         }

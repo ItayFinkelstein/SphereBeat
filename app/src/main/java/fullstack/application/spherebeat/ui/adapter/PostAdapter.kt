@@ -30,11 +30,11 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = itemList?.get(position)
-        holder.binding.songName.text = item?.songName
-        holder.binding.singer.text = item?.singer
+        //holder.binding.post.text = item?.songName
+        holder.binding.postSinger.text = item?.singer
         holder.binding.postImage.setImageResource(R.drawable.icons_song)
         holder.binding.rating.text = "${item?.rating.toString()} / 5"
-        holder.binding.description.text = item?.text
+        holder.binding.postText.text = item?.text
 
         holder.binding.likeButton.setImageResource(
             if (userRepository.getLoggedUser()?.let { item?.likes?.contains(it.uid) } == true) {
@@ -55,6 +55,22 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
                         }
                     )
                 }
+            }
+        }
+
+        holder.itemView.setOnClickListener {
+            item?.let { it ->
+                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating.toFloat()) }
+        }
+
+        holder.binding.postEditButton.setOnClickListener {
+            item?.let { it ->
+                onPostClickListener.onEditPostClick(
+                    it.songName,
+                    it.singer,
+                    it.text,
+                    it.rating.toFloat()
+                )
             }
         }
     }
