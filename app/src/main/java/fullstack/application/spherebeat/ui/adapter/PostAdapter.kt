@@ -7,6 +7,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.dal.repository.UserRepository
@@ -58,6 +59,17 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
                     )
                 }
             }
+        }
+        Log.d("PostAdapter", "onBindViewHolder: ${item?.singer}")
+
+        val coverUrl = item?.coverUrl
+        if (!coverUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(coverUrl)
+                .placeholder(R.drawable.icons_song)
+                .into(holder.binding.postImage)
+        } else {
+            holder.binding.postImage.setImageResource(R.drawable.icons_song)
         }
 
         holder.itemView.setOnClickListener {

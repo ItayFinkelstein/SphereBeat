@@ -93,7 +93,7 @@ class PostRepository {
 
             executor.execute {
                 var currentTime = lastUpdated
-                localDb.postDao().clear()
+                //localDb.postDao().clear()
                 for (post in posts) {
                     localDb.postDao().insert(post)
                     Log.d("PostRepository post singer", post.singer)

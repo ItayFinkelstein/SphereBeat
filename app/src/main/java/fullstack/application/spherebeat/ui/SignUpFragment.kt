@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment
 import fullstack.application.spherebeat.MainActivity
 import fullstack.application.spherebeat.databinding.FragmentSignUpBinding
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
+import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.dal.repository.ImageRepository
 import fullstack.application.spherebeat.dal.repository.UserRepository
 import fullstack.application.spherebeat.model.User
 import java.util.UUID
@@ -24,6 +27,8 @@ class SignUpFragment : Fragment() {
     private var cameraLauncher: ActivityResultLauncher<Void?>? = null
     private var didSetProfileImage = false
     private val userRepository: UserRepository = UserRepository()
+    private val imageRepository: ImageRepository = ImageRepository()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,19 +83,43 @@ class SignUpFragment : Fragment() {
     }
 
     private fun onSignUp() {
+        Log.d("SignUp", "Signing up user did set profile image: $didSetProfileImage")
+
         if (didSetProfileImage) {
             binding.profileImageView.isDrawingCacheEnabled = true
             binding.profileImageView.buildDrawingCache()
             val bitmap = (binding.profileImageView.drawable as BitmapDrawable).bitmap
 
-            // TODO: Handle image upload
-
+            imageRepository.uploadImageBitmap(
+                bitmap = bitmap,
+                name = UUID.randomUUID().toString(),
+                onSuccess = { uri ->
+                    Log.d("SignUp", "image uri: $uri")
+                    if (!uri.isNullOrBlank()) {
+                        val newUser = createUserFromFields().copy(avatarUrl = uri)
+                        signUpUser(newUser)
+                        displayUserAvatar(newUser.avatarUrl)
+                    } else {
+                        signUpUser(createUserFromFields())
+                    }
+                },
+                onError = {
+                    Log.d("SignUp", "Error uploading image ")
+                    signUpUser(createUserFromFields())
+                }
+            )
         } else {
-            // TODO: implement
-            //createUser()
+            signUpUser(createUserFromFields())
         }
+    }
 
-        signUpUser(createUserFromFields())
+    private fun displayUserAvatar(avatarUrl: String) {
+        if (!avatarUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(avatarUrl)
+                .placeholder(R.drawable.profile_icon)
+                .into(binding.profileImageView)
+        }
     }
 
     private fun createUserFromFields(): User {

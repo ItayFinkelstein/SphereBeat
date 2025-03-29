@@ -235,21 +235,6 @@ class FirebaseModel {
             .addOnFailureListener { callback(false) }
     }
 
-    fun uploadImage(name: String, bitmap: Bitmap, callback: (String?) -> Unit) {
-        val storageRef = storage.reference.child("images/$name.jpg")
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        storageRef.putBytes(data)
-            .addOnSuccessListener {
-                storageRef.downloadUrl.addOnSuccessListener { uri ->
-                    callback(uri.toString())
-                }
-            }
-            .addOnFailureListener { callback(null) }
-    }
-
     // --------------------------------------- SONGS ----------------------------------------------
     fun getAllSongsSince(lastUpdated: Long, callback: (List<Song>) -> Unit) {
         database.collection(Constants.Collections.SONGS_COLLECTION)

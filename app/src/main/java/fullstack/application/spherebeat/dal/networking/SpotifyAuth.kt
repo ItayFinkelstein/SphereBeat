@@ -25,7 +25,7 @@ object SpotifyAuth {
         val encodedCredentials = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
 
         val request = Request.Builder()
-            .url(BuildConfig.SPOTIFY_TOKEN_URL)
+            .url("https://accounts.spotify.com/api/token")
             .addHeader("Authorization", "Basic $encodedCredentials")
             .addHeader("Content-Type", "application/x-www-form-urlencoded")
             .post(requestBody)

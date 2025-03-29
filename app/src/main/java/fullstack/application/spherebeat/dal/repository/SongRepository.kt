@@ -1,5 +1,7 @@
 package fullstack.application.spherebeat.dal.repository
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.lifecycle.LiveData
 import fullstack.application.spherebeat.dal.remote.FirebaseModel
@@ -77,7 +79,7 @@ class SongRepository {
     fun getSongsFromApi(songName: String, accessToken: String, callback: (List<Song>, Boolean) -> Unit) {
         executor.execute {
             try {
-                val request = SongsClient.songsApiClient.searchTracks(songName, "track",5, "Bearer $accessToken")
+                val request = SongsClient.songsApiClient.searchTracks(songName, "track", 5, "Bearer $accessToken")
                 val response = request.execute()
 
                 if (response.isSuccessful) {
@@ -93,14 +95,23 @@ class SongRepository {
                         Song(id, name, singer, releaseDate, length, cover)
                     } ?: emptyList()
 
-                    callback(songs, true)
+                    // Post the result to the main thread
+                    Handler(Looper.getMainLooper()).post {
+                        callback(songs, true)
+                    }
                 } else {
                     Log.e("SpotifyTrack", "Failed to fetch songs! response code: ${response.code()}, message: ${response.message()}, error body: ${response.errorBody()?.string()}")
-                    callback(emptyList(), false)
+                    // Post the result to the main thread
+                    Handler(Looper.getMainLooper()).post {
+                        callback(emptyList(), false)
+                    }
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "Failed to fetch songs! with exception ${e}")
-                callback(emptyList(), false)
+                // Post the result to the main thread
+                Handler(Looper.getMainLooper()).post {
+                    callback(emptyList(), false)
+                }
             }
         }
     }

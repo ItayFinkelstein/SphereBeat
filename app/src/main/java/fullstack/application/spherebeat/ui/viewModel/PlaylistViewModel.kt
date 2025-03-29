@@ -3,6 +3,7 @@ package fullstack.application.spherebeat.ui.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import fullstack.application.spherebeat.dal.repository.ImageRepository
 import fullstack.application.spherebeat.model.Playlist
 import fullstack.application.spherebeat.dal.repository.PlaylistRepository
 import fullstack.application.spherebeat.dal.repository.SongRepository
@@ -12,6 +13,7 @@ class PlaylistViewModel : ViewModel() {
     private val playlistRepository: PlaylistRepository = PlaylistRepository()
     val playlistList: LiveData<List<Playlist>> = playlistRepository.getAllPlaylists()
     private val songRepository: SongRepository = SongRepository()
+
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState> get() = _loadingState

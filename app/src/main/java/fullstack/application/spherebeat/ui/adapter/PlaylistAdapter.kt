@@ -3,6 +3,7 @@ package fullstack.application.spherebeat.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.databinding.PlaylistLayoutBinding
 import fullstack.application.spherebeat.model.Playlist
@@ -27,7 +28,17 @@ class PlaylistAdapter(private var itemList: List<Playlist>?, private var onPlayl
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
         val item = itemList?.get(position)
         holder.binding.playlistName.text = item?.name
-        holder.binding.playlistImage.setImageResource(R.drawable.taylor_swift_album)
+
+        if (!item?.coverUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(item?.coverUrl)
+                .placeholder(R.drawable.icons_song)
+                .into(holder.binding.playlistImage)
+        } else {
+            holder.binding.playlistImage.setImageResource(R.drawable.icons_song)
+        }
+
+
 
         holder.itemView.setOnClickListener {
             item?.let {
