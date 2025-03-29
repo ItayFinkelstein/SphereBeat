@@ -157,8 +157,8 @@ class FirebaseModel {
             }
     }
 
-    fun deletePost(post: Post, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.POSTS_COLLECTION).document(post.id).delete()
+    fun deletePost(id: String, callback: (Boolean) -> Unit) {
+        database.collection(Constants.Collections.POSTS_COLLECTION).document(id).delete()
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
