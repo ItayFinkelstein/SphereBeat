@@ -80,7 +80,15 @@
                 android:name="playlistName"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_playlistFragment_to_createPlaylistFragment"
+            app:destination="@id/createPlaylistFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/createPlaylistFragment"
+        android:name="fullstack.application.spherebeat.ui.CreatePlaylistFragment"
+        android:label="Create Playlist"
+        tools:layout="@layout/fragment_create_playlist" />
     <fragment
         android:id="@+id/playlistSongFragment"
         android:name="fullstack.application.spherebeat.ui.PlaylistSongsFragment"
