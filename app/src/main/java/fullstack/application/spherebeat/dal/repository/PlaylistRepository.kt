@@ -55,6 +55,7 @@ class PlaylistRepository {
         firebaseModel.getAllPlaylistsSince(lastUpdated) { playlists ->
             executor.execute {
                 var currentTime = lastUpdated
+                localDb.playlistDao().clear()
                 for (playlist in playlists) {
                     localDb.playlistDao().insert(playlist)
                     playlist.lastUpdated?.let {

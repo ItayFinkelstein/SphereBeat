@@ -55,6 +55,7 @@ class SongRepository {
         firebaseModel.getAllSongsSince(lastUpdated) { songs ->
             executor.execute {
                 var currentTime = lastUpdated
+                localDb.songDao().clear()
                 for (song in songs) {
                     localDb.songDao().insert(song)
                     song.lastUpdated?.let {
