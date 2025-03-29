@@ -28,7 +28,7 @@ class SearchSongsAdapter(private var itemList: List<Song>, private val onSearchS
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchSongsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.song_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_search_song, parent, false)
         return SearchSongsViewHolder(view)
     }
 

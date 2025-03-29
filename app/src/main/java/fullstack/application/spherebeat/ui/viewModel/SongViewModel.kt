@@ -49,7 +49,7 @@ class SongViewModel : ViewModel() {
     }
 
     fun fetchSongsFromApi(songName: String, callback: (Boolean) -> Unit) {
-        _loadingState.value = LoadingState.LOADING
+        /*_loadingState.value = LoadingState.LOADING
         songRepository.getAccessToken(
             onSuccess = { accessToken ->
                 Log.d("SongViewModel", "Access token: $accessToken")
@@ -62,6 +62,6 @@ class SongViewModel : ViewModel() {
                 _loadingState.postValue(LoadingState.NOT_LOADING)
                 callback(false)
             }
-        )
+        )*/
     }
 }

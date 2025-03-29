@@ -19,7 +19,10 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "CLOUD_NAME", "\"${project.properties["CLOUD_NAME"] ?: ""}\"")
+        buildConfigField("String", "CLOUDINARY_NAME", "\"${project.properties["CLOUDINARY_NAME"] ?: ""}\"")
+        buildConfigField("String", "CLOUD_API_KEY", "\"${project.properties["CLOUD_API_KEY"] ?: ""}\"")
+        buildConfigField("String", "CLOUD_API_SECRET", "\"${project.properties["CLOUD_API_SECRET"] ?: ""}\"")
+
         buildConfigField("String", "API_KEY", "\"${project.properties["API_KEY"] ?: ""}\"")
         buildConfigField("String", "API_SECRET", "\"${project.properties["API_SECRET"] ?: ""}\"")
         buildConfigField("String", "SPOTIFY_BASE_URL", "\"${project.properties["SPOTIFY_BASE_URL"] ?: ""}\"")
