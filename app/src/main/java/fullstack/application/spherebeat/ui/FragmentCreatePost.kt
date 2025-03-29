@@ -10,6 +10,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.firestore.FieldValue
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.databinding.FragmentCreatePostBinding
@@ -51,6 +52,7 @@ class FragmentCreatePost : Fragment() {
                 binding.ratingBar.rating.toInt(),
                 text = binding.postDescription.text.toString(),
                 likes = emptyList(),
+                lastUpdated = System.currentTimeMillis()
             )
             postViewModel.addPost(
                 post,

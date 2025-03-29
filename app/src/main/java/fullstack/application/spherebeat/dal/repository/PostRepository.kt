@@ -65,8 +65,17 @@ class PostRepository {
     }
 
 
+    fun deletePostById(id: String, callback: (Boolean) -> Unit) {
+        firebaseModel.deletePost(id) { success ->
+            if (success) {
+                //localDb.postDao().deleteById(id) // TODO: Check later
+                refreshAllPosts()
+            }
+            callback(success)
+        }
+    }
     fun deletePost(post: Post, callback: (Boolean) -> Unit) {
-        firebaseModel.deletePost(post) { success ->
+        firebaseModel.deletePost(post.id) { success ->
             if (success) {
                 localDb.postDao().delete(post)
                 refreshAllPosts()

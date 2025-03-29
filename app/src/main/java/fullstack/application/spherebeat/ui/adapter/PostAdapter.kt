@@ -76,7 +76,11 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
         holder.binding.postDeleteButton.setOnClickListener {
             Log.v("Post", "Delete post")
-            //postRepository.deletePost()
+            if (item != null) {
+                postRepository.deletePostById(item.id, {})
+            } else {
+                Log.v("Post", "Can't delete because item is null")
+            }
         }
     }
 
