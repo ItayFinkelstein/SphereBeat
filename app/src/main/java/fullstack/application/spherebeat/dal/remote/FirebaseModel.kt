@@ -134,7 +134,7 @@ class FirebaseModel {
     fun addPost(post: Post, callback: (Boolean) -> Unit) {
         val postRef = database.collection(Constants.Collections.POSTS_COLLECTION).document()
         post.id = postRef.id
-        postRef.set(post)
+        postRef.set(post.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
