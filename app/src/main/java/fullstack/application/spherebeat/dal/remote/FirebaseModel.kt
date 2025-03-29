@@ -270,12 +270,12 @@ class FirebaseModel {
             }
     }
 
-    fun addSong(song: Song, callback: (Boolean) -> Unit) {
+    fun addSong(song: Song, callback: (String, Boolean) -> Unit) {
         val songRef = database.collection(Constants.Collections.SONGS_COLLECTION).document()
         song.id = songRef.id
         songRef.set(song.toJson())
-            .addOnSuccessListener { callback(true) }
-            .addOnFailureListener { callback(false) }
+            .addOnSuccessListener { callback(song.id, true) }
+            .addOnFailureListener { callback("", false) }
     }
 
     fun updateSong(song: Song, callback: (Boolean) -> Unit) {

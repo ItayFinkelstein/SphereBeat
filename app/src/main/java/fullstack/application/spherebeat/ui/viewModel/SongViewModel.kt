@@ -24,11 +24,11 @@ class SongViewModel : ViewModel() {
         return songRepository.getSongById(songId)
     }
 
-    fun addSong(song: Song, callback: (Boolean) -> Unit) {
+    fun addSong(song: Song, callback: (String, Boolean) -> Unit) {
         _loadingState.value = LoadingState.LOADING
-        songRepository.addSong(song) { success ->
+        songRepository.addSong(song) { data, success ->
             _loadingState.postValue(LoadingState.NOT_LOADING)
-            callback(success)
+            callback(data, success)
         }
     }
 

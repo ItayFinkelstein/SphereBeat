@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import fullstack.application.spherebeat.databinding.FragmentViewSongBinding
+import fullstack.application.spherebeat.model.Song
 import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
 
 class ViewSongFragment : Fragment() {
@@ -48,6 +49,7 @@ class ViewSongFragment : Fragment() {
             }
         })
 
+
         binding.createPostButton.setOnClickListener {
             val action = ViewSongFragmentDirections.actionViewSongFragmentToCreatePostFragment(
                 rating = 0.0F,
@@ -66,7 +68,8 @@ class ViewSongFragment : Fragment() {
                 }
 
                 if (selectedPlaylist != null) {
-                    playlistViewModel.addSongToPlaylist(selectedPlaylist, args.songId, {
+                    val song = Song(args.songId, args.songName, args.artistName, 1978, 2, "")
+                    playlistViewModel.addSongToPlaylist(selectedPlaylist, song, {
                         if (it) {
                             Log.v("Playlist", "added song with id " + args.songId + " to playlist " + selectedPlaylist.name)
                         } else {

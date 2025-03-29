@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.ui.adapter.PlaylistSongsAdapter
 import fullstack.application.spherebeat.databinding.FragmentPlaylistSongsBinding
+import fullstack.application.spherebeat.model.Playlist
 import fullstack.application.spherebeat.model.Song
+import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
+import fullstack.application.spherebeat.ui.viewModel.SongViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,17 +31,13 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
     private var _binding: FragmentPlaylistSongsBinding? = null
     private val binding get() = _binding!!
     // TODO: Rename and change types of parameters
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlaylistSongsAdapter
     private lateinit var itemList: List<Song>
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val playlistViewModel: PlaylistViewModel by viewModels()
+    private val songViewModel: SongViewModel by viewModels()
+    private var songs: List<Song> = emptyList()
+    private var playlistSongs: List<Song> = emptyList()
+    private var playlist: Playlist? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,21 +53,27 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
         Log.d("PlaylistSongsFragment", "Playlist name: $playlistName")
         binding.topImage.setImageResource(R.drawable.taylor_swift_album)
         // Sample data
-        itemList = listOf(
-            Song(
-                "1",
-                "Yellow Brick Road",
-                "Elton John",
-                4000,
-                2,
-                resources.getResourceEntryName(R.drawable.taylor_swift_album)
-            ),
-            Song("2", "Bad Blood", "Taylor Swift", 5000, 2, resources.getResourceEntryName(R.drawable.taylor_swift_album)),
-//            Song(R.drawable.beatles_album, "Hey Jude", "The Beatles")
-        )
+        songViewModel.songList.observe(viewLifecycleOwner, { fetchedSongs ->
+            fetchedSongs?.let {
+                songs = fetchedSongs;
+                playlistSongs = songs.filter { playlist?.songs?.contains(it.id) == true }
+                adapter.update(playlistSongs)
+            }
+        })
+
+        playlistViewModel.playlistList.observe(viewLifecycleOwner, { playlists ->
+            playlists?.let {
+                playlist = playlists.find {
+                    it.id == args.playlistId
+                }
+
+                playlistSongs = songs.filter { playlist?.songs?.contains(it.id) == true }
+                adapter.update(playlistSongs)
+            }
+        })
 
         //adapter = PlaylistSongsAdapter(itemList, this)
-        adapter = PlaylistSongsAdapter(itemList, args.playlistId, object : PlaylistSongsAdapter.OnPlaylistSongClickListener {
+        adapter = PlaylistSongsAdapter(playlistSongs, args.playlistId, object : PlaylistSongsAdapter.OnPlaylistSongClickListener {
             override fun onPlaylistSongClick(song: Song) {
                 val action = PlaylistSongsFragmentDirections.actionPlaylistSongsFragmentToViewSongFragment(song.id, song.name, song.singer, song.coverUrl)
                 findNavController().navigate(action)
