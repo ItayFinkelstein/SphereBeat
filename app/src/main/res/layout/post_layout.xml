@@ -1,71 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
-
-    <View
-        android:id="@+id/top_separator"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="11dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:padding="2dp">
 
     <ImageView
         android:id="@+id/post_image"
         android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
         android:src="@drawable/icons_song"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_separator"
-        app:layout_constraintBottom_toBottomOf="parent" />
-
-    <TextView
-        android:id="@+id/post_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sample Text"
-        android:textSize="16sp"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toEndOf="@id/post_image"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/post_singer"
+        android:id="@+id/songName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample Singer"
-        android:textSize="12sp"
-        android:gravity="center_vertical"
-        app:layout_constraintStart_toEndOf="@id/post_image"
-        app:layout_constraintTop_toBottomOf="@id/post_text"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp" />
+        android:gravity="center_vertical"
+        android:text="Song"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/post_image"
+        tools:layout_editor_absoluteY="2dp" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/darker_gray"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/post_singer" />
+    <TextView
+        android:id="@+id/singer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:text="Singer"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@id/post_image"
+        app:layout_constraintTop_toBottomOf="@id/songName" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:text="description"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/post_image"
+        app:layout_constraintTop_toBottomOf="@+id/singer" />
 
     <ImageButton
         android:id="@+id/post_edit_button"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
         android:background="?attr/selectableItemBackground"
         android:contentDescription="Edit"
         android:src="@drawable/icon_edit2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/like_button"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="4dp"
+        android:background="?attr/selectableItemBackground"
+        android:contentDescription="Like"
+        android:src="@drawable/heart_unfilled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:text="rate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/like_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="409dp"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="68dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,61 +2,67 @@ package fullstack.application.spherebeat.ui.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.dal.repository.PostRepository
+import fullstack.application.spherebeat.dal.repository.UserRepository
+import fullstack.application.spherebeat.databinding.PostLayoutBinding
 import fullstack.application.spherebeat.model.Post
 
 class PostAdapter(private var itemList: List<Post>?, private var onPostClickListener: OnPostClickListener) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
+    private val userRepository: UserRepository = UserRepository()
+    private val postRepository: PostRepository = PostRepository()
 
     interface OnPostClickListener {
         fun onPostClick(name: String, singer: String, description: String, rating: Float)
         fun onEditPostClick(name: String, singer: String, description: String, rating: Float)
     }
-    class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.post_image)
-        val textView: TextView = itemView.findViewById(R.id.post_text)
-        val singerView: TextView = itemView.findViewById(R.id.post_singer)
-        val iconView: ImageButton = itemView.findViewById(R.id.post_edit_button)
-    }
+    class PostViewHolder(val binding: PostLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.post_layout, parent, false)
-        return PostViewHolder(view)
+        val binding = PostLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PostViewHolder(binding)
     }
-
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val item = itemList?.get(position)
-        // holder.imageView.setImageResource(item.imageResId) TODO: Uncomment this line
-        holder.textView.text = item?.songName
-        holder.singerView.text = item?.singer
-        holder.itemView.setOnClickListener {
-            Log.v("yeah", "yeah")
-            item?.let { it ->
-                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating.toFloat()) }
-        }
+        holder.binding.songName.text = item?.songName
+        holder.binding.singer.text = item?.singer
+        holder.binding.postImage.setImageResource(R.drawable.icons_song)
+        holder.binding.rating.text = "${item?.rating.toString()} / 5"
+        holder.binding.description.text = item?.text
 
-        holder.iconView.setOnClickListener {
-            Log.v("yerah2", "yeagh2")
-            item?.let { it ->
-                onPostClickListener.onEditPostClick(
-                    it.songName,
-                    it.singer,
-                    it.text,
-                    it.rating.toFloat()
-                )
+        holder.binding.likeButton.setImageResource(
+            if (userRepository.getLoggedUser()?.let { item?.likes?.contains(it.uid) } == true) {
+                R.drawable.heart_filled
+            } else {
+                R.drawable.heart_unfilled
+            }
+        )
+
+        holder.binding.likeButton.setOnClickListener {
+            if (item != null) {
+                postRepository.likePost(item, userRepository.getLoggedUser()?.uid) {
+                    holder.binding.likeButton.setImageResource(
+                        if (userRepository.getLoggedUser()?.let { item.likes.contains(it.uid) } == true) {
+                            R.drawable.heart_filled
+                        } else {
+                            R.drawable.heart_unfilled
+                        }
+                    )
+                }
             }
         }
-
     }
 
     fun update(posts: List<Post>?) {
         this.itemList = posts
+        Log.d("PostAdapter", "update: ${posts?.size}")
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
