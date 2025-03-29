@@ -14,7 +14,7 @@ class PlaylistAdapter(private var itemList: List<Playlist>?, private var onPlayl
     private val playlistViewModel: PlaylistViewModel = PlaylistViewModel()
 
     interface OnPlaylistClickListener {
-        fun onPlaylistClick(name: String, imageUrl: String)
+        fun onPlaylistClick(id: String, name: String, imageUrl: String)
     }
 
     class PlaylistViewHolder(val binding: PlaylistLayoutBinding) : RecyclerView.ViewHolder(binding.root)
@@ -31,7 +31,7 @@ class PlaylistAdapter(private var itemList: List<Playlist>?, private var onPlayl
 
         holder.itemView.setOnClickListener {
             item?.let {
-                onPlaylistClickListener.onPlaylistClick(it.name, it.coverUrl)
+                onPlaylistClickListener.onPlaylistClick(it.id, it.name, it.coverUrl)
             }
         }
 

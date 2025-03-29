@@ -14,7 +14,7 @@
         android:icon="@drawable/list_icon"
         android:title="Lists" />
     <item
-        android:id="@+id/editProfileFragment"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/profile_icon"
         android:title="Profile" />
     <item

@@ -210,6 +210,18 @@ class FirebaseModel {
             }
     }
 
+    fun updatePlaylistSongs(playlistId: String, songs: List<String>, callback: (Boolean) -> Unit) {
+        val playlistRef = database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlistId)
+        playlistRef.update("songs", songs)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            }
+    }
+
     fun deletePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id)
             .delete()
