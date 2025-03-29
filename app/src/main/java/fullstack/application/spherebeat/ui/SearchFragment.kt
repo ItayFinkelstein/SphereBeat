@@ -36,8 +36,9 @@ class SearchFragment : Fragment() {
 
         val adapter = SearchSongAdapter(songsFromApi, object : SearchSongAdapter.OnSearchSongClickListener {
             override fun onSearchSongClick(song: Song) {
-                //val action = PlaylistSongsFragmentDirections.actionPlaylistSongsFragmentToViewSongFragment(song.name, song.singer, song.coverUrl)
-                //findNavController().navigate(action)
+                val action = SearchFragmentDirections.actionSearchFragmentToViewSongFragment(
+                    song.name, song.singer, song.coverUrl)
+                findNavController().navigate(action)
             }});
         binding.recyclerView.adapter = adapter
 
