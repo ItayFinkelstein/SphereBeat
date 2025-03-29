@@ -28,7 +28,6 @@ class ShowPostFragment : Fragment() {
         binding.showPostDescription.text = args.description
         binding.showPostRatingBar.rating = args.rating
 
-
         return binding.root
     }
 }

@@ -63,5 +63,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/show_post_description"
         android:tint="@color/white"
+        android:isIndicator="true"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
