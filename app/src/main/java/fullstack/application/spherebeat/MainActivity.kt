@@ -58,18 +58,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            android.R.id.home -> {
+                navController?.popBackStack()
+                true
+            }
+
             R.id.logout -> {
                 Log.d("MainActivity", "Logout")
                 val intent = Intent(this, AuthActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
-
                 userRepository.logOut { Log.d("MainActivity", "Logged out successfully") }
                 true
             }
+
             else -> {
                 Log.d("MainActivity", "itemId + ${item.itemId}")
+                navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 true
             }
         }
