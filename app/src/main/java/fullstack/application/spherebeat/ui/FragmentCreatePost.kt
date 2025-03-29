@@ -9,13 +9,16 @@ import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
 import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.databinding.FragmentCreatePostBinding
 import fullstack.application.spherebeat.databinding.FragmentLoginBinding
 import fullstack.application.spherebeat.databinding.FragmentViewSongBinding
+import fullstack.application.spherebeat.model.Post
 
 class FragmentCreatePost : Fragment() {
     private var _binding: FragmentCreatePostBinding? = null
     private val binding get() = _binding!!
+    private val postRepository: PostRepository = PostRepository()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -26,11 +29,29 @@ class FragmentCreatePost : Fragment() {
         binding.createPostSongTitleView.setText(args.songName)
         binding.createPostSingerView.setText(args.songArtist)
         binding.ratingBar.rating = args.rating
+        binding.postDescription.setText(args.description)
 
 
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             // The rating is a float value between 0 and 5
             Log.d("Rating", "User selected rating: $rating")
+        }
+
+        binding.createPostSubmitButton.setOnClickListener {
+            postRepository.addPost(
+                Post(
+                    null.toString(),
+                    binding.createPostSongTitleView.text.toString(),
+                    binding.createPostSingerView.text.toString(),
+                    90,
+                    8,
+                    "",
+                    binding.ratingBar.rating.toInt(),
+                    text = binding.postDescription.text.toString(),
+                    likes = emptyList(),
+                ),
+                callback = {Log.v("Save post", "saved post")},
+            )
         }
 
 

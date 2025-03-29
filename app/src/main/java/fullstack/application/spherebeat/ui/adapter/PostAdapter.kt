@@ -59,12 +59,12 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
         }
 
         holder.itemView.setOnClickListener {
-            item?.let { it ->
+            item?.let {
                 onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating.toFloat()) }
         }
 
         holder.binding.postEditButton.setOnClickListener {
-            item?.let { it ->
+            item?.let {
                 onPostClickListener.onEditPostClick(
                     it.songName,
                     it.singer,
