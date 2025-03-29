@@ -23,8 +23,8 @@ class FragmentCreatePost : Fragment() {
         val songView: TextView = view.findViewById(R.id.create_post_song_title_view)
         val singerView: TextView = view.findViewById(R.id.create_post_singer_view)
 
-        songView.text = args.songName
-        singerView.text = args.songArtist
+        songView.text = args.songName ?: ""
+        singerView.text = args.songArtist ?: ""
 
 
         starsRatingBar.setOnRatingBarChangeListener { _, rating, _ ->

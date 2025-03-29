@@ -36,15 +36,15 @@
         tools:layout="@layout/fragment_create_post">
         <argument
             android:name="songName"
-            android:defaultValue="null"
+            android:defaultValue=""
             app:argType="string" />
         <argument
             android:name="songArtist"
-            android:defaultValue="null"
+            android:defaultValue=""
             app:argType="string" />
         <argument
             android:name="description"
-            android:defaultValue="null"
+            android:defaultValue=""
             app:argType="string" />
         <argument
             android:name="rating"
