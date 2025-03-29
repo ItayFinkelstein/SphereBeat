@@ -56,8 +56,8 @@ data class User(
         }
     }
 
-    val json: Map<String, Any>
-        get() = hashMapOf(
+    fun toJson(): Map<String, Any> {
+        return mapOf(
             ID_KEY to id,
             EMAIL_KEY to email,
             NAME_KEY to name,
@@ -65,5 +65,5 @@ data class User(
             AVATAR_URL_KEY to avatarUrl,
             LAST_UPDATED to FieldValue.serverTimestamp()
         )
-
+    }
 }

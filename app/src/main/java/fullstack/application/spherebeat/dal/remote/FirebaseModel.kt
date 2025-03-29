@@ -82,13 +82,13 @@ class FirebaseModel {
 
     // --------------------------------------- USERS ----------------------------------------------
     private fun saveUserToDB(user: User, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.USERS_COLLECTION).document(user.id).set(user)
+        database.collection(Constants.Collections.USERS_COLLECTION).document(user.id).set(user.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
 
     fun updateUser(user: User, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.USERS_COLLECTION).document(user.id).set(user)
+        database.collection(Constants.Collections.USERS_COLLECTION).document(user.id).set(user.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
@@ -140,7 +140,7 @@ class FirebaseModel {
     }
 
     fun updatePost(post: Post, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.POSTS_COLLECTION).document(post.id).set(post)
+        database.collection(Constants.Collections.POSTS_COLLECTION).document(post.id).set(post.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
@@ -186,21 +186,39 @@ class FirebaseModel {
     fun addPlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         val playlistRef = database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document()
         playlist.id = playlistRef.id
-        playlistRef.set(playlist)
+        playlistRef.set(playlist.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
 
     fun updatePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id)
-            .set(playlist)
+            .set(playlist.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
+    }
+
+    fun updatePlaylistLikes(playlistId: String, likes: List<String>, callback: (Boolean) -> Unit) {
+        val playlistRef = database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlistId)
+        playlistRef.update("likes", likes)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            }
     }
 
     fun deletePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(playlist.id)
             .delete()
+            .addOnSuccessListener { callback(true) }
+            .addOnFailureListener { callback(false) }
+    }
+
+    fun deletePlaylist(id: String, callback: (Boolean) -> Unit) {
+        database.collection(Constants.Collections.PLAYLISTS_COLLECTION).document(id).delete()
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
@@ -243,13 +261,13 @@ class FirebaseModel {
     fun addSong(song: Song, callback: (Boolean) -> Unit) {
         val songRef = database.collection(Constants.Collections.SONGS_COLLECTION).document()
         song.id = songRef.id
-        songRef.set(song)
+        songRef.set(song.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
 
     fun updateSong(song: Song, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.SONGS_COLLECTION).document(song.id).set(song)
+        database.collection(Constants.Collections.SONGS_COLLECTION).document(song.id).set(song.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }

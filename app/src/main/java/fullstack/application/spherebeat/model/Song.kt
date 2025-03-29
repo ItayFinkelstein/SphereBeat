@@ -51,8 +51,8 @@ data class Song(
         }
     }
 
-    val json: Map<String, Any>
-        get() = hashMapOf(
+    fun toJson(): Map<String, Any> {
+        return mapOf(
             ID_KEY to id,
             NAME_KEY to name,
             SINGER_KEY to singer,
@@ -61,4 +61,5 @@ data class Song(
             COVER_URL_KEY to coverUrl,
             LAST_UPDATED to FieldValue.serverTimestamp()
         )
+    }
 }
