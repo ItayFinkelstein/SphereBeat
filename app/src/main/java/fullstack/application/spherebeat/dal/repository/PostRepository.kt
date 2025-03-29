@@ -74,6 +74,7 @@ class PostRepository {
             callback(success)
         }
     }
+
     fun deletePost(post: Post, callback: (Boolean) -> Unit) {
         firebaseModel.deletePost(post.id) { success ->
             if (success) {

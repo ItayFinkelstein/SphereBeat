@@ -22,6 +22,9 @@ interface PlaylistDao {
     @Delete
     fun delete(playlist: Playlist)
 
+    @Query("DELETE FROM playlists WHERE id = :playlistId")
+    fun deleteById(playlistId: String)
+
     @Query("DELETE FROM playlists")
     fun clear()
 }

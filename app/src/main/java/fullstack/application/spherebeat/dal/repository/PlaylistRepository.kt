@@ -50,6 +50,16 @@ class PlaylistRepository {
         }
     }
 
+    fun deletePlaylistById(id: String, callback: (Boolean) -> Unit) {
+        firebaseModel.deletePost(id) { success ->
+            if (success) {
+                //localDb.playlistDao().deleteById(id) // TODO: Check later
+                refreshAllPlaylists()
+            }
+            callback(success)
+        }
+    }
+
     private fun refreshAllPlaylists() {
         val lastUpdated = Playlist.lastUpdated
         firebaseModel.getAllPlaylistsSince(lastUpdated) { playlists ->
