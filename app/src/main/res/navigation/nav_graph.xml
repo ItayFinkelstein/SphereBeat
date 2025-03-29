@@ -13,6 +13,9 @@
             android:id="@+id/action_searchFragment_to_viewSongFragment"
             app:destination="@id/viewSongFragment" >
             <argument
+                android:name="songId"
+                app:argType="string" />
+            <argument
                 android:name="songName"
                 app:argType="string" />
             <argument
