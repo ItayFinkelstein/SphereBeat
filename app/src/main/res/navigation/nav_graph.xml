@@ -8,7 +8,25 @@
         android:id="@+id/searchFragment"
         android:name="fullstack.application.spherebeat.ui.SearchFragment"
         android:label="Search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_viewSongFragment"
+            app:destination="@id/viewSongFragment" >
+            <argument
+                android:name="songId"
+                app:argType="string" />
+            <argument
+                android:name="songName"
+                app:argType="string" />
+            <argument
+                android:name="artistName"
+                app:argType="string" />
+            <argument
+                android:name="imageUrl"
+                app:argType="string"/>
+        </action>
+    </fragment>
+
     <fragment
         android:id="@+id/postFragment"
         android:name="fullstack.application.spherebeat.ui.PostFragment"

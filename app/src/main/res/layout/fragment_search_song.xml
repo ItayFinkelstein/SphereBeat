@@ -7,7 +7,7 @@
     android:padding="2dp">
 
     <ImageView
-        android:id="@+id/playlist_song_image"
+        android:id="@+id/search_song_image"
         android:layout_width="50dp"
         android:layout_height="0dp"
         android:layout_marginStart="4dp"
@@ -17,19 +17,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/playlist_song_text"
+        android:id="@+id/search_song_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:gravity="center_vertical"
         android:text="Song"
         android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/playlist_song_image"
+        app:layout_constraintStart_toEndOf="@+id/search_song_image"
         tools:layout_editor_absoluteY="16dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/playlist_song_singer"
+        android:id="@+id/search_song_singer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -37,8 +37,8 @@
         android:gravity="center_vertical"
         android:text="Singer"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/playlist_song_image"
-        app:layout_constraintTop_toBottomOf="@+id/playlist_song_text" />
+        app:layout_constraintStart_toEndOf="@+id/search_song_image"
+        app:layout_constraintTop_toBottomOf="@+id/search_song_text" />
 
     <View
         android:layout_width="0dp"
@@ -47,10 +47,10 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/playlist_song_singer" />
+        app:layout_constraintTop_toBottomOf="@id/search_song_singer" />
 
     <ImageButton
-        android:id="@+id/playlist_song_like_button"
+        android:id="@+id/search_song_like_button"
         android:layout_width="48dp"
         android:layout_height="0dp"
         android:layout_marginEnd="4dp"
@@ -61,16 +61,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/delete_button"
-        android:layout_width="30dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="2dp"
-        android:background="?attr/selectableItemBackground"
-        android:contentDescription="Delete"
-        android:src="@android:drawable/ic_menu_delete"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/playlist_song_like_button"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
