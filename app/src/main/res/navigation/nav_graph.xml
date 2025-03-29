@@ -135,6 +135,16 @@
         android:id="@+id/viewSongFragment"
         android:name="fullstack.application.spherebeat.ui.ViewSongFragment"
         tools:layout="@layout/fragment_view_song">
+        <action
+            android:id="@+id/action_viewSongFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" >
+            <argument
+                android:name="songName"
+                app:argType="string" />
+            <argument
+                android:name="songArtist"
+                app:argType="string" />
+        </action>
         <argument
             android:name="songId"
             app:argType="string" />
