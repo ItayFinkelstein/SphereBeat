@@ -5,10 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import fullstack.application.spherebeat.model.Playlist
 import fullstack.application.spherebeat.dal.repository.PlaylistRepository
+import fullstack.application.spherebeat.dal.repository.SongRepository
+import fullstack.application.spherebeat.model.Song
 
 class PlaylistViewModel : ViewModel() {
     private val playlistRepository: PlaylistRepository = PlaylistRepository()
     val playlistList: LiveData<List<Playlist>> = playlistRepository.getAllPlaylists()
+    private val songRepository: SongRepository = SongRepository()
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState> get() = _loadingState
@@ -44,10 +47,20 @@ class PlaylistViewModel : ViewModel() {
         }
     }
 
-    fun addSongToPlaylist(playlist: Playlist, songId: String?, callback: (Boolean) -> Unit) {
-        playlistRepository.addSongToPlaylist(playlist, songId) { success ->
-            callback(success)
+    fun addSongToPlaylist(playlist: Playlist, song: Song, callback: (Boolean) -> Unit) {
+        val songInDb = songRepository.getSongById(song.id)
+        if(songInDb.value == null) {
+            songRepository.addSong(song, { songId, addSongSuccess ->
+                playlistRepository.addSongToPlaylist(playlist, songId) { success ->
+                    callback(success)
+                }
+            })
+        } else {
+            playlistRepository.addSongToPlaylist(playlist, song.id) { success ->
+                callback(success)
+            }
         }
+
     }
 
     fun removeSongFromPlaylist(playlist: Playlist, songId: String?, callback: (Boolean) -> Unit) {

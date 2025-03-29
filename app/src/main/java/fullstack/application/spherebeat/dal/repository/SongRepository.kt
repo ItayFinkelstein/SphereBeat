@@ -27,12 +27,12 @@ class SongRepository {
         return localDb.songDao().getSong(songId)
     }
 
-    fun addSong(song: Song, callback: (Boolean) -> Unit) {
-        firebaseModel.addSong(song) { success ->
+    fun addSong(song: Song, callback: (String, Boolean) -> Unit) {
+        firebaseModel.addSong(song) { data, success ->
             if (success) {
                 refreshAllSongs()
             }
-            callback(success)
+            callback(data, success)
         }
     }
 
