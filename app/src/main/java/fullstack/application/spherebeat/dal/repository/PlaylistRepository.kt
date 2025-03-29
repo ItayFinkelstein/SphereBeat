@@ -60,6 +60,24 @@ class PlaylistRepository {
         }
     }
 
+    fun addSongToPlaylist(playlist: Playlist, songId: String?, callback: (Boolean) -> Unit) {
+        val updatedSongs = playlist.songs.toMutableList()
+
+        if (songId != null) {
+            if (!updatedSongs.contains(songId)) {
+                updatedSongs.add(songId)
+            }
+            firebaseModel.updatePlaylistSongs(playlist.id, updatedSongs) { success ->
+                if (success) {
+                    refreshAllPlaylists()
+                }
+                callback(success)
+            }
+        } else {
+            callback(false)
+        }
+    }
+
     fun deletePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         firebaseModel.deletePlaylist(playlist) { success ->
             if (success) {

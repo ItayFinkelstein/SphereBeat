@@ -91,6 +91,9 @@
             android:id="@+id/action_playlistSongsFragment_to_viewSongFragment"
             app:destination="@id/viewSongFragment" >
             <argument
+                android:name="songId"
+                app:argType="string" />
+            <argument
                 android:name="songName"
                 app:argType="string" />
             <argument
@@ -108,6 +111,9 @@
         android:id="@+id/viewSongFragment"
         android:name="fullstack.application.spherebeat.ui.ViewSongFragment"
         tools:layout="@layout/fragment_view_song">
+        <argument
+            android:name="songId"
+            app:argType="string" />
         <argument
             android:name="songName"
             app:argType="string" />

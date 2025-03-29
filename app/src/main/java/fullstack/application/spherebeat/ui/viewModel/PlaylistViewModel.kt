@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import fullstack.application.spherebeat.model.Playlist
 import fullstack.application.spherebeat.dal.repository.PlaylistRepository
-import fullstack.application.spherebeat.model.Post
 
 class PlaylistViewModel : ViewModel() {
     private val playlistRepository: PlaylistRepository = PlaylistRepository()
@@ -41,6 +40,12 @@ class PlaylistViewModel : ViewModel() {
 
     fun likePlaylist(playlist: Playlist, userId: String?, callback: (Boolean) -> Unit) {
         playlistRepository.likePlaylist(playlist, userId) { success ->
+            callback(success)
+        }
+    }
+
+    fun addSongToPlaylist(playlist: Playlist, songId: String?, callback: (Boolean) -> Unit) {
+        playlistRepository.addSongToPlaylist(playlist, songId) { success ->
             callback(success)
         }
     }
