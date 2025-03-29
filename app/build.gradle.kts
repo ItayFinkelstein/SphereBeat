@@ -18,6 +18,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "CLOUD_NAME", "\"${project.properties["CLOUD_NAME"] ?: ""}\"")
+        buildConfigField("String", "API_KEY", "\"${project.properties["API_KEY"] ?: ""}\"")
+        buildConfigField("String", "API_SECRET", "\"${project.properties["API_SECRET"] ?: ""}\"")
+        buildConfigField("String", "SPOTIFY_BASE_URL", "\"${project.properties["SPOTIFY_BASE_URL"] ?: ""}\"")
+        buildConfigField("String", "SPOTIFY_TOKEN_URL", "\"${project.properties["SPOTIFY_TOKEN_URL"] ?: ""}\"")
+        buildConfigField("String", "SPOTIFY_ACCESS_TOKEN", "\"${project.properties["SPOTIFY_ACCESS_TOKEN"] ?: ""}\"")
     }
 
     buildTypes {
@@ -39,6 +46,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -77,4 +85,5 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.gson)
     implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp)
 }
