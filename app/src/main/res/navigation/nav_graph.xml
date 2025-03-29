@@ -35,6 +35,10 @@
         <action
             android:id="@+id/action_postFragment_to_createPostFragment"
             app:destination="@id/createPostFragment" >
+            <argument
+                android:name="postId"
+                android:defaultValue=""
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_postFragment_to_showPostFragment"
@@ -46,6 +50,10 @@
         android:name="fullstack.application.spherebeat.ui.FragmentCreatePost"
         android:label="Create Post"
         tools:layout="@layout/fragment_create_post">
+        <argument
+            android:name="postId"
+            android:defaultValue=""
+            app:argType="string" />
         <argument
             android:name="songName"
             android:defaultValue=""

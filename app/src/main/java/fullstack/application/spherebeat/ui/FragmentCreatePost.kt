@@ -43,7 +43,7 @@ class FragmentCreatePost : Fragment() {
 
         binding.createPostSubmitButton.setOnClickListener {
             val post = Post(
-                null.toString(),
+                args.postId,
                 binding.createPostSongTitleView.text.toString(),
                 binding.createPostSingerView.text.toString(),
                 90,
@@ -54,13 +54,23 @@ class FragmentCreatePost : Fragment() {
                 likes = emptyList(),
                 lastUpdated = System.currentTimeMillis()
             )
-            postViewModel.addPost(
-                post,
-                {
-                    Log.v("Save post", "saved post")
-                    findNavController().popBackStack()
-                },
-            )
+            if (args.postId != "") {
+                postViewModel.updatePost(
+                    post,
+                    {
+                        Log.v("Update post", "updated post")
+                        findNavController().popBackStack()
+                    },
+                )
+            } else {
+                postViewModel.addPost(
+                    post,
+                    {
+                        Log.v("Save post", "saved post")
+                        findNavController().popBackStack()
+                    },
+                )
+            }
         }
 
 
