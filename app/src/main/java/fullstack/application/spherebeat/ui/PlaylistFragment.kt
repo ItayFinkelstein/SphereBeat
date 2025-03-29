@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -64,6 +65,12 @@ class PlaylistFragment : Fragment() {
                 val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, imageUrl)
                 findNavController().navigate(action)
         }});
+
+        val createPlaylistButton: Button = rootView.findViewById(R.id.create_playlist_button);
+        createPlaylistButton.setOnClickListener {
+            val action = PlaylistFragmentDirections.actionPlaylistFragmentToCreatePlaylistFragment()
+            findNavController().navigate(action)
+        }
 //
         recyclerView.adapter = adapter
         // Inflate the layout for this fragment

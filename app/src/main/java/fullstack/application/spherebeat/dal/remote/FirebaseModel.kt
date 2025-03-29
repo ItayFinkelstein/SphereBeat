@@ -57,7 +57,18 @@ class FirebaseModel {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    callback(true, user)
+                    user?.let {
+                        val newUser = User (
+                            id = it.uid,
+                            email = it.email ?: "",
+                            name = it.displayName ?: "",
+                            password = password,
+                            avatarUrl = ""
+                        )
+                        saveUserToDB(newUser) { success ->
+                            callback(success, user)
+                        }
+                    } ?: callback(false, null)
                 } else {
                     callback(false, null)
                 }
@@ -66,6 +77,7 @@ class FirebaseModel {
 
     fun logOut( callback: (Boolean) -> Unit) {
         auth.signOut()
+        callback(true)
     }
 
     // --------------------------------------- USERS ----------------------------------------------
@@ -107,20 +119,13 @@ class FirebaseModel {
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Log.d("FirebaseModel", "Query successful: ${it.isSuccessful}")
-                    if (it.result.isEmpty) {
-                        Log.d("FirebaseModel", "No posts found")
-                    } else {
-                        Log.d("FirebaseModel", "Number of posts found: ${it.result.size()}")
                         val posts: MutableList<Post> = mutableListOf()
 
                         for (json in it.result) {
                             posts.add(Post.fromJSON(json.data))
                         }
                         callback(posts)
-                    }
                 } else {
-                    Log.e("FirebaseModel", "Query failed: ${it.exception}")
                     callback(listOf())
                 }
             }
@@ -129,7 +134,7 @@ class FirebaseModel {
     fun addPost(post: Post, callback: (Boolean) -> Unit) {
         val postRef = database.collection(Constants.Collections.POSTS_COLLECTION).document()
         post.id = postRef.id
-        postRef.set(post)
+        postRef.set(post.toJson())
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }
@@ -140,8 +145,20 @@ class FirebaseModel {
             .addOnFailureListener { callback(false) }
     }
 
-    fun deletePost(post: Post, callback: (Boolean) -> Unit) {
-        database.collection(Constants.Collections.POSTS_COLLECTION).document(post.id).delete()
+    fun updatePostLikes(postId: String, likes: List<String>, callback: (Boolean) -> Unit) {
+        val postRef = database.collection(Constants.Collections.POSTS_COLLECTION).document(postId)
+        postRef.update("likes", likes)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    callback(true)
+                } else {
+                    callback(false)
+                }
+            }
+    }
+
+    fun deletePost(id: String, callback: (Boolean) -> Unit) {
+        database.collection(Constants.Collections.POSTS_COLLECTION).document(id).delete()
             .addOnSuccessListener { callback(true) }
             .addOnFailureListener { callback(false) }
     }

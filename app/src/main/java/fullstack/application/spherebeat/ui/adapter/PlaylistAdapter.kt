@@ -16,7 +16,7 @@ class PlaylistAdapter(private val itemList: List<Playlist>, private val onPlayli
     }
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.item_image)
-        val textView: TextView = itemView.findViewById(R.id.item_text)
+        val textView: TextView = itemView.findViewById(R.id.playlistName)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

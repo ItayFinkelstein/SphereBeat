@@ -20,4 +20,10 @@ interface PostDao {
 
     @Delete
     fun delete(post: Post)
+
+    @Query("DELETE FROM posts WHERE id = :postId")
+    fun deleteById(postId: String)
+
+    @Query("DELETE FROM posts")
+    fun clear()
 }

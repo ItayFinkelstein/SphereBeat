@@ -15,7 +15,11 @@ class PostRepository {
 
     fun getAllPosts(): LiveData<List<Post>> {
         refreshAllPosts()
-        return localDb.postDao().getAllPosts()
+        val postsLiveData = localDb.postDao().getAllPosts()
+        postsLiveData.observeForever { posts ->
+            Log.d("PostRepository", "Fetched posts: ${posts.size}")
+        }
+        return postsLiveData
     }
 
     fun getPostById(postId: String): LiveData<Post> {
@@ -41,8 +45,37 @@ class PostRepository {
         }
     }
 
+    fun likePost(post: Post, userId: String?, callback: (Boolean) -> Unit) {
+        val updatedLikes = post.likes.toMutableList()
+        if (userId != null) {
+            if (updatedLikes.contains(userId)) {
+                updatedLikes.remove(userId) // Unlike the post
+            } else {
+                updatedLikes.add(userId) // Like the post
+            }
+            firebaseModel.updatePostLikes(post.id, updatedLikes) { success ->
+                if (success) {
+                    refreshAllPosts()
+                }
+                callback(success)
+            }
+        } else {
+            callback(false)
+        }
+    }
+
+
+    fun deletePostById(id: String, callback: (Boolean) -> Unit) {
+        firebaseModel.deletePost(id) { success ->
+            if (success) {
+                //localDb.postDao().deleteById(id) // TODO: Check later
+                refreshAllPosts()
+            }
+            callback(success)
+        }
+    }
     fun deletePost(post: Post, callback: (Boolean) -> Unit) {
-        firebaseModel.deletePost(post) { success ->
+        firebaseModel.deletePost(post.id) { success ->
             if (success) {
                 localDb.postDao().delete(post)
                 refreshAllPosts()
@@ -59,6 +92,7 @@ class PostRepository {
 
             executor.execute {
                 var currentTime = lastUpdated
+                localDb.postDao().clear()
                 for (post in posts) {
                     localDb.postDao().insert(post)
                     Log.d("PostRepository post singer", post.singer)

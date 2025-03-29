@@ -3,13 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
-    <fragment
-        android:id="@+id/homeFragment"
-        android:name="fullstack.application.spherebeat.ui.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home">
-    </fragment>
+    app:startDestination="@id/postFragment">
     <fragment
         android:id="@+id/searchFragment"
         android:name="fullstack.application.spherebeat.ui.SearchFragment"
@@ -19,7 +13,55 @@
         android:id="@+id/postFragment"
         android:name="fullstack.application.spherebeat.ui.PostFragment"
         android:label="Post"
-        tools:layout="@layout/fragment_post" />
+        tools:layout="@layout/fragment_post">
+        <action
+            android:id="@+id/action_postFragment_to_createPostFragment"
+            app:destination="@id/createPostFragment" >
+        </action>
+        <action
+            android:id="@+id/action_postFragment_to_showPostFragment"
+            app:destination="@id/showPostFragment" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/createPostFragment"
+        android:name="fullstack.application.spherebeat.ui.FragmentCreatePost"
+        android:label="Create Post"
+        tools:layout="@layout/fragment_create_post">
+        <argument
+            android:name="songName"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="songArtist"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="description"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+    </fragment>
+    <fragment
+        android:id="@+id/showPostFragment"
+        android:name="fullstack.application.spherebeat.ui.ShowPostFragment"
+        android:label="Show Post"
+        tools:layout="@layout/fragment_show_post">
+        <argument
+            android:name="songName"
+            app:argType="string" />
+        <argument
+            android:name="songArtist"
+            app:argType="string" />
+        <argument
+            android:name="description"
+            app:argType="string" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+    </fragment>
     <fragment
         android:id="@+id/listsFragment"
         android:name="fullstack.application.spherebeat.ui.PlaylistFragment"
@@ -32,7 +74,15 @@
                 android:name="playlistName"
                 app:argType="string" />
         </action>
+        <action
+            android:id="@+id/action_playlistFragment_to_createPlaylistFragment"
+            app:destination="@id/createPlaylistFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/createPlaylistFragment"
+        android:name="fullstack.application.spherebeat.ui.CreatePlaylistFragment"
+        android:label="Create Playlist"
+        tools:layout="@layout/fragment_create_playlist" />
     <fragment
         android:id="@+id/playlistSongFragment"
         android:name="fullstack.application.spherebeat.ui.PlaylistSongsFragment"
@@ -73,5 +123,10 @@
         android:name="fullstack.application.spherebeat.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="fullstack.application.spherebeat.ui.EditProfileFragment"
+        android:label="Edit Profile"
+        tools:layout="@layout/fragment_edit_profile" />
 
 </navigation>

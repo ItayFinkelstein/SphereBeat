@@ -52,16 +52,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.navigation_menu, menu)
+        menuInflater.inflate(R.menu.header_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            android.R.id.home -> {
-                navController?.popBackStack()
-                true
-            }
             R.id.logout -> {
                 Log.d("MainActivity", "Logout")
                 val intent = Intent(this, AuthActivity::class.java)
@@ -74,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             }
             else -> {
                 Log.d("MainActivity", "itemId + ${item.itemId}")
-                navController?.let { NavigationUI.onNavDestinationSelected(item, it) }
                 true
             }
         }

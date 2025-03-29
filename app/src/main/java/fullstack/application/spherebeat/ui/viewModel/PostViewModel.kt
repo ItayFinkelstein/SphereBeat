@@ -22,6 +22,12 @@ class PostViewModel : ViewModel() {
         return postRepository.getPostById(postId)
     }
 
+    fun refresh() {
+        _loadingState.value = LoadingState.LOADING
+        postRepository.getAllPosts()
+        _loadingState.value = LoadingState.NOT_LOADING
+    }
+
     fun addPost(post: Post, callback: (Boolean) -> Unit) {
         _loadingState.value = LoadingState.LOADING
         postRepository.addPost(post) { success ->
