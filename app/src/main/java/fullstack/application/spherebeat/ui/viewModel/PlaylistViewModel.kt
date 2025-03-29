@@ -50,6 +50,12 @@ class PlaylistViewModel : ViewModel() {
         }
     }
 
+    fun removeSongFromPlaylist(playlist: Playlist, songId: String?, callback: (Boolean) -> Unit) {
+        playlistRepository.removeSongFromPlaylist(playlist, songId) { success ->
+            callback(success)
+        }
+    }
+
     fun updatePlaylist(playlist: Playlist, callback: (Boolean) -> Unit) {
         _loadingState.value = LoadingState.LOADING
         playlistRepository.updatePlaylist(playlist) { success ->

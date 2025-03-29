@@ -73,6 +73,9 @@
             <argument
                 android:name="playlistName"
                 app:argType="string" />
+            <argument
+                android:name="playlistId"
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_playlistFragment_to_createPlaylistFragment"
@@ -103,6 +106,9 @@
     <argument
         android:name="playlistName"
         app:argType="string" />
+        <argument
+            android:name="playlistId"
+            app:argType="string" />
         <argument
             android:name="image"
             app:argType="string"/>

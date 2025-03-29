@@ -27,8 +27,8 @@ class PlaylistFragment : Fragment() {
 
         binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = PlaylistAdapter(playlistViewModel.playlistList.value, object : PlaylistAdapter.OnPlaylistClickListener {
-            override fun onPlaylistClick(name: String, imageUrl: String) {
-                val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, imageUrl)
+            override fun onPlaylistClick(id: String, name: String, imageUrl: String) {
+                val action = PlaylistFragmentDirections.actionPlaylistFragmentToPlaylistSongFragment(name, id, imageUrl)
                 findNavController().navigate(action)
             }
         })

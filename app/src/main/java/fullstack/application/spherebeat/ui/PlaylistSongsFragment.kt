@@ -68,7 +68,7 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
         )
 
         //adapter = PlaylistSongsAdapter(itemList, this)
-        adapter = PlaylistSongsAdapter(itemList, object : PlaylistSongsAdapter.OnPlaylistSongClickListener {
+        adapter = PlaylistSongsAdapter(itemList, args.playlistId, object : PlaylistSongsAdapter.OnPlaylistSongClickListener {
             override fun onPlaylistSongClick(song: Song) {
                 val action = PlaylistSongsFragmentDirections.actionPlaylistSongsFragmentToViewSongFragment(song.id, song.name, song.singer, song.coverUrl)
                 findNavController().navigate(action)

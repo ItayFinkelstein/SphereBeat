@@ -36,7 +36,6 @@ class ViewSongFragment : Fragment() {
         binding.songArtistTextView.text = args.artistName
         binding.songImage.setImageResource(resources.getIdentifier(args.imageUrl, "drawable", context?.packageName))
 
-        // Observe the playlist list from ViewModel
         playlistViewModel.playlistList.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let {
                 val playlistSpinnerAdapter = ArrayAdapter(
@@ -58,8 +57,6 @@ class ViewSongFragment : Fragment() {
                 }
 
                 if (selectedPlaylist != null) {
-
-                    // Call the ViewModel to add the song to the playlist
                     playlistViewModel.addSongToPlaylist(selectedPlaylist, args.songId, {
                         if (it) {
                             Log.v("Playlist", "added song with id " + args.songId + " to playlist " + selectedPlaylist.name)
