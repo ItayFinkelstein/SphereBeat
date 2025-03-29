@@ -24,7 +24,6 @@ android {
         buildConfigField("String", "API_SECRET", "\"${project.properties["API_SECRET"] ?: ""}\"")
         buildConfigField("String", "SPOTIFY_BASE_URL", "\"${project.properties["SPOTIFY_BASE_URL"] ?: ""}\"")
         buildConfigField("String", "SPOTIFY_TOKEN_URL", "\"${project.properties["SPOTIFY_TOKEN_URL"] ?: ""}\"")
-
         buildConfigField("String", "SPOTIFY_ACCESS_TOKEN", "\"${project.properties["SPOTIFY_ACCESS_TOKEN"] ?: ""}\"")
     }
 

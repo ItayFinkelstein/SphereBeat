@@ -11,6 +11,7 @@ interface SpotifyApi {
     fun searchTracks(
         @Query("q") query: String?,
         @Query("type") type: String?,
+        @Query("limit") limit: Int?,
         @Header("Authorization") token: String?
     ): Call<SpotifyResponse>
 }

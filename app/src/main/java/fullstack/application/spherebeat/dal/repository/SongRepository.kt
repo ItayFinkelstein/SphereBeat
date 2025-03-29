@@ -60,7 +60,7 @@ class SongRepository {
         firebaseModel.getAllSongsSince(lastUpdated) { songs ->
             executor.execute {
                 var currentTime = lastUpdated
-                localDb.songDao().clear()
+                // localDb.songDao().clear() TODO: fix to work with the getSongsFromApi
                 for (song in songs) {
                     localDb.songDao().insert(song)
                     song.lastUpdated?.let {
@@ -74,13 +74,10 @@ class SongRepository {
         }
     }
 
-    fun getSongsFromApi(songName: String, accessToken: String, callback: (Boolean) -> Unit) {
-        val lastUpdated = Song.lastUpdated
+    fun getSongsFromApi(songName: String, accessToken: String, callback: (List<Song>) -> Unit) {
         executor.execute {
             try {
-                var currentTime = lastUpdated
-
-                val request = SongsClient.songsApiClient.searchTracks(songName, "track", "Bearer $accessToken")
+                val request = SongsClient.songsApiClient.searchTracks(songName, "track",5, "Bearer $accessToken")
                 val response = request.execute()
 
                 if (response.isSuccessful) {
@@ -96,23 +93,14 @@ class SongRepository {
                         Song(id, name, singer, releaseDate, length, cover)
                     } ?: emptyList()
 
-                    for (song in songs) {
-                        localDb.songDao().insert(song)
-                        song.lastUpdated?.let {
-                            if (currentTime < it) {
-                                currentTime = it
-                            }
-                        }
-                    }
-                    Song.lastUpdated = currentTime
-                    callback(true)
+                    callback(songs)
                 } else {
                     Log.e("SpotifyTrack", "Failed to fetch songs! response code: ${response.code()}, message: ${response.message()}, error body: ${response.errorBody()?.string()}")
-                    callback(false)
+                    callback(emptyList())
                 }
             } catch (e: Exception) {
                 Log.e("TAG", "Failed to fetch songs! with exception ${e}")
-                callback(false)
+                callback(emptyList())
             }
         }
     }
