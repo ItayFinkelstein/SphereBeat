@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import fullstack.application.spherebeat.databinding.FragmentViewSongBinding
 import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
 
@@ -47,6 +48,14 @@ class ViewSongFragment : Fragment() {
             }
         })
 
+        binding.createPostButton.setOnClickListener {
+            val action = ViewSongFragmentDirections.actionViewSongFragmentToCreatePostFragment(
+                rating = 0.0F,
+                songName = args.songName,
+                songArtist = args.artistName,
+            );
+            findNavController().navigate(action)
+        }
         binding.addSongButton.setOnClickListener {
             val selectedPlaylistName = binding.playlistSpinner.selectedItem as? String
 

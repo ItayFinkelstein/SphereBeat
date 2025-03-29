@@ -15,7 +15,7 @@ object SongsClient {
 
     val songsApiClient: SpotifyApi by lazy {
         val retrofitClient = Retrofit.Builder()
-            .baseUrl(BuildConfig.SPOTIFY_BASE_URL)
+            .baseUrl("https://api.spotify.com")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

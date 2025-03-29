@@ -48,20 +48,20 @@ class SongViewModel : ViewModel() {
         }
     }
 
-    fun fetchSongsFromApi(songName: String, callback: (Boolean) -> Unit) {
-        /*_loadingState.value = LoadingState.LOADING
+    fun fetchSongsFromApi(songName: String, callback: (List<Song>, Boolean) -> Unit) {
+        _loadingState.value = LoadingState.LOADING
         songRepository.getAccessToken(
             onSuccess = { accessToken ->
                 Log.d("SongViewModel", "Access token: $accessToken")
-                songRepository.getSongsFromApi(songName, accessToken) { success ->
+                songRepository.getSongsFromApi(songName, accessToken) { data, success ->
                     _loadingState.postValue(LoadingState.NOT_LOADING)
-                    callback(success)
+                    callback(data, success)
                 }
             },
             onError = {
                 _loadingState.postValue(LoadingState.NOT_LOADING)
-                callback(false)
+                callback(emptyList(), false)
             }
-        )*/
+        )
     }
 }

@@ -36,9 +36,8 @@ class PostFragment : Fragment() {
                 )
                 findNavController().navigate(action)
             }
-            override fun onEditPostClick(name: String, singer: String, description: String, rating: Float) {
-                val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, name, singer, description,
-
+            override fun onEditPostClick(id: String, name: String, singer: String, description: String, rating: Float) {
+                val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, id, name, singer, description
                     )
                 findNavController().navigate(action)
             }

@@ -8,9 +8,9 @@ import java.io.IOException
 import android.util.Base64
 
 object SpotifyAuth {
-    private const val CLIENT_ID = BuildConfig.API_KEY
-    private const val CLIENT_SECRET = BuildConfig.API_SECRET
-    private const val SPOTIFY_TOKEN_URL = BuildConfig.SPOTIFY_TOKEN_URL
+    private var CLIENT_ID = BuildConfig.API_KEY
+    private var CLIENT_SECRET = BuildConfig.API_SECRET
+    private var SPOTIFY_TOKEN_URL = BuildConfig.SPOTIFY_TOKEN_URL
     var accessToken: String? = null
 
     fun fetchAccessToken(onSuccess: (String) -> Unit, onError: (String) -> Unit) {
@@ -18,12 +18,14 @@ object SpotifyAuth {
         val requestBody = FormBody.Builder()
             .add("grant_type", "client_credentials")
             .build()
-
+        CLIENT_ID = BuildConfig.API_KEY
+        CLIENT_SECRET = BuildConfig.API_SECRET
+        SPOTIFY_TOKEN_URL = BuildConfig.SPOTIFY_TOKEN_URL
         val credentials = "$CLIENT_ID:$CLIENT_SECRET"
         val encodedCredentials = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
 
         val request = Request.Builder()
-            .url(SPOTIFY_TOKEN_URL)
+            .url(BuildConfig.SPOTIFY_TOKEN_URL)
             .addHeader("Authorization", "Basic $encodedCredentials")
             .addHeader("Content-Type", "application/x-www-form-urlencoded")
             .post(requestBody)

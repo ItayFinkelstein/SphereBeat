@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import fullstack.application.spherebeat.R
+import fullstack.application.spherebeat.databinding.FragmentPlaylistSongsBinding
 import fullstack.application.spherebeat.databinding.FragmentSearchSongBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,6 +30,11 @@ class SearchSongFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentSearchSongBinding.inflate(inflater, container, false)
+
+//        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        val args = PlaylistSongsFragmentArgs.fromBundle(requireArguments())
+//        val playlistName = args.playlistName
         return inflater.inflate(R.layout.fragment_search_song, container, false)
     }
 }

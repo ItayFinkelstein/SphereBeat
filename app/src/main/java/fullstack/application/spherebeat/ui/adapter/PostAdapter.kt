@@ -22,7 +22,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
     interface OnPostClickListener {
         fun onPostClick(name: String, singer: String, description: String, rating: Float)
-        fun onEditPostClick(name: String, singer: String, description: String, rating: Float)
+        fun onEditPostClick(id: String, name: String, singer: String, description: String, rating: Float)
     }
     class PostViewHolder(val binding: PostLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -80,6 +80,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
         holder.binding.postEditButton.setOnClickListener {
             item?.let {
                 onPostClickListener.onEditPostClick(
+                    it.id,
                     it.songName,
                     it.singer,
                     it.text,
