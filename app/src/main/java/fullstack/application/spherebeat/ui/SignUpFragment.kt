@@ -90,7 +90,7 @@ class SignUpFragment : Fragment() {
             binding.profileImageView.buildDrawingCache()
             val bitmap = (binding.profileImageView.drawable as BitmapDrawable).bitmap
 
-            imageRepository.uploadImage(
+            imageRepository.uploadImageBitmap(
                 bitmap = bitmap,
                 name = UUID.randomUUID().toString(),
                 onSuccess = { uri ->
@@ -114,10 +114,12 @@ class SignUpFragment : Fragment() {
     }
 
     private fun displayUserAvatar(avatarUrl: String) {
-        Picasso.get()
-            .load(avatarUrl)
-            .placeholder(R.drawable.profile_icon)
-            .into(binding.profileImageView)
+        if (!avatarUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(avatarUrl)
+                .placeholder(R.drawable.profile_icon)
+                .into(binding.profileImageView)
+        }
     }
 
     private fun createUserFromFields(): User {

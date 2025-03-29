@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.databinding.PlaylistLayoutBinding
 import fullstack.application.spherebeat.databinding.PlaylistSongsLayoutBinding
@@ -46,6 +47,15 @@ class PlaylistSongsAdapter(private val itemList: List<Song>, private val playlis
         val song = itemList[position]
         holder.binding.playlistSongText.text = song.name
         holder.binding.playlistSongSinger.text = song.singer
+
+        if (!song.coverUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(song.coverUrl)
+                .placeholder(R.drawable.icons_song)
+                .into(holder.binding.playlistSongImage)
+        } else {
+            holder.binding.playlistSongImage.setImageResource(R.drawable.icons_song)
+        }
 
         holder.itemView.setOnClickListener {
             onPlaylistSongClickListener.onPlaylistSongClick(song)

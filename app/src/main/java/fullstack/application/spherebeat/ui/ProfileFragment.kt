@@ -40,10 +40,14 @@ class ProfileFragment : Fragment() {
             users?.let {
                 val selectedUser = users.find { it.email == currentUser?.email }
                 binding.username.text = "Username: " + selectedUser?.name
-                Picasso.get()
-                    .load(selectedUser?.avatarUrl)
-                    .placeholder(R.drawable.profile_icon)
-                    .into(binding.userAvatar)
+
+                if (!selectedUser?.avatarUrl.isNullOrEmpty()) {
+                    Picasso.get()
+                        .load(selectedUser?.avatarUrl)
+                        .placeholder(R.drawable.profile_icon)
+                        .into(binding.userAvatar)
+                }
+
             }
         })
 
