@@ -26,6 +26,8 @@ class ProfileFragment : Fragment() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userViewModel: UserViewModel by viewModels()
     private var username: String? = null
+    private var userId: String? = null
+
     private var image: String? = null
 
     private var _binding: FragmentProfileBinding? = null
@@ -43,6 +45,7 @@ class ProfileFragment : Fragment() {
                 val selectedUser = users.find { it.email == currentUser?.email }
                 binding.username.text = "Username: " + selectedUser?.name
                 username = selectedUser?.name
+                userId = selectedUser?.id
                 image = selectedUser?.avatarUrl
                 if (!selectedUser?.avatarUrl.isNullOrEmpty()) {
                     Picasso.get()
@@ -58,6 +61,7 @@ class ProfileFragment : Fragment() {
         binding.submitButton.setOnClickListener {
             val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(
                 userName = username ?: "",
+                userId = userId ?: "",
                 image = image ?: ""
             )
             findNavController().navigate(action)
