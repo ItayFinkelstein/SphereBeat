@@ -18,11 +18,6 @@ import fullstack.application.spherebeat.model.Song
 import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
 import fullstack.application.spherebeat.ui.viewModel.SongViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 /**
  * A simple [Fragment] subclass.
  * Use the [PlaylistFragment.newInstance] factory method to
@@ -31,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
 class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
     private var _binding: FragmentPlaylistSongsBinding? = null
     private val binding get() = _binding!!
-    // TODO: Rename and change types of parameters
+
     private lateinit var adapter: PlaylistSongsAdapter
     private lateinit var itemList: List<Song>
     private val playlistViewModel: PlaylistViewModel by viewModels()

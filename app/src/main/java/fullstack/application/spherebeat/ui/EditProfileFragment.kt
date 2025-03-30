@@ -14,7 +14,6 @@ import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.dal.repository.ImageRepository
 import fullstack.application.spherebeat.dal.repository.UserRepository
-import fullstack.application.spherebeat.databinding.FragmentCreatePlaylistBinding
 import fullstack.application.spherebeat.databinding.FragmentEditProfileBinding
 import java.util.UUID
 
@@ -38,7 +37,7 @@ class EditProfileFragment : Fragment() {
         if (args.image.isNotEmpty()) {
             Picasso.get()
                 .load(args.image)
-                .placeholder(R.drawable.icons_song)
+                .placeholder(R.drawable.profile_icon)
                 .into(binding.profileImageView)
         } else {
             binding.profileImageView.setImageResource(R.drawable.profile_icon)
