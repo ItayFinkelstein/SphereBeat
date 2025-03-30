@@ -30,18 +30,22 @@ class PostFragment : Fragment() {
 
         binding!!.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = PostAdapter(postViewModel.postList.value, object : PostAdapter.OnPostClickListener {
-            override fun onPostClick(name: String, singer: String, description: String, rating: Float) {
-                val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description,
-                    rating
-                )
-                findNavController().navigate(action)
-            }
-            override fun onEditPostClick(id: String, name: String, singer: String, description: String, rating: Float) {
-                val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, id, name, singer, description
-                    )
+            override fun onPostClick(name: String, singer: String, description: String, imageUrl : String ,rating: Float) {
+                val action = PostFragmentDirections.actionPostFragmentToShowPostFragment(name, singer, description, imageUrl, rating)
                 findNavController().navigate(action)
             }
 
+            override fun onEditPostClick(
+                id: String,
+                name: String,
+                singer: String,
+                description: String,
+                imageUrl: String,
+                rating: Float
+            ) {
+                val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment( rating, id, name, singer, description)
+                findNavController().navigate(action)
+            }
         });
         binding!!.recyclerView.adapter = adapter
 
@@ -55,7 +59,14 @@ class PostFragment : Fragment() {
         binding!!.recyclerView.adapter = adapter
 
         binding!!.createPostButton.setOnClickListener {
-            val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment(6.0F)
+            val action = PostFragmentDirections.actionPostFragmentToCreatePostFragment(
+                6.0F,
+                imageUrl = "",
+                postId = "",
+                songName = "",
+                songArtist = "",
+                description = ""
+            )
             findNavController().navigate(action)
         }
 

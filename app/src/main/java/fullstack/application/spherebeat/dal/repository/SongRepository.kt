@@ -62,7 +62,6 @@ class SongRepository {
         firebaseModel.getAllSongsSince(lastUpdated) { songs ->
             executor.execute {
                 var currentTime = lastUpdated
-                // localDb.songDao().clear() TODO: fix to work with the getSongsFromApi
                 for (song in songs) {
                     localDb.songDao().insert(song)
                     song.lastUpdated?.let {
@@ -87,7 +86,7 @@ class SongRepository {
                         val id = track.id ?: ""
                         val name = track.name ?: ""
                         val singer = track.artists?.firstOrNull()?.name ?: "Unknown"
-                        val cover = track.album?.images?.getOrNull(2)?.url ?: ""
+                        val cover = track.album?.images?.getOrNull(1)?.url ?: ""
                         val releaseDate = parseReleaseDate(track.album?.release_date)
                         val length = track.duration_ms ?: 0
 

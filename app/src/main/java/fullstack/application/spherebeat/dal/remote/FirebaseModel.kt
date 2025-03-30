@@ -95,7 +95,7 @@ class FirebaseModel {
 
     fun getAllUsersSince(lastUpdated: Long, callback: (List<User>) -> Unit) {
         database.collection(Constants.Collections.USERS_COLLECTION)
-            .whereGreaterThanOrEqualTo(User.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
+            //.whereGreaterThanOrEqualTo(User.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
@@ -115,7 +115,7 @@ class FirebaseModel {
     // --------------------------------------- POSTS ----------------------------------------------
     fun getAllPostsSince(lastUpdated: Long, callback: (List<Post>) -> Unit) {
         database.collection(Constants.Collections.POSTS_COLLECTION)
-            .whereGreaterThanOrEqualTo(Post.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
+            //.whereGreaterThanOrEqualTo(Post.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -166,7 +166,7 @@ class FirebaseModel {
     // --------------------------------------- PLAYLISTS ----------------------------------------------
     fun getAllPlaylistsSince(lastUpdated: Long, callback: (List<Playlist>) -> Unit) {
         database.collection(Constants.Collections.PLAYLISTS_COLLECTION)
-            .whereGreaterThanOrEqualTo(Playlist.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
+            //.whereGreaterThanOrEqualTo(Playlist.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {
@@ -238,7 +238,7 @@ class FirebaseModel {
     // --------------------------------------- SONGS ----------------------------------------------
     fun getAllSongsSince(lastUpdated: Long, callback: (List<Song>) -> Unit) {
         database.collection(Constants.Collections.SONGS_COLLECTION)
-            .whereGreaterThanOrEqualTo(Song.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
+            //.whereGreaterThanOrEqualTo(Song.LAST_UPDATED, lastUpdated.toFirebaseTimestamp)
             .get()
             .addOnCompleteListener {
                 when (it.isSuccessful) {

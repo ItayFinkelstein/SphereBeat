@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.databinding.FragmentSearchSongBinding
 import fullstack.application.spherebeat.databinding.PostLayoutBinding
@@ -16,17 +17,6 @@ class SearchSongAdapter(private var itemList: List<Song>, private val onSearchSo
         fun onSearchSongClick(song: Song)
     }
 
-//    class SearchSongsViewHolder(itemView: FragmentSearchSongBinding) : RecyclerView.ViewHolder(itemView) {
-//        val singerView: TextView = itemView.findViewById(R.id.search_song_singer)
-//        val imageView: ImageView = itemView.findViewById(R.id.search_song_image)
-//        val textView: TextView = itemView.findViewById(R.id.search_song_text)
-//
-//        fun bind(song: Song) {
-//            textView.text = song.name
-//            singerView.text = song.singer
-//            // imageView.setImageResource(song.imageResId) // Uncomment and set the image resource if available
-//        }
-//    }
 class SearchSongViewHolder(val binding: FragmentSearchSongBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchSongViewHolder {
@@ -39,7 +29,15 @@ class SearchSongViewHolder(val binding: FragmentSearchSongBinding) : RecyclerVie
 
         holder.binding.searchSongText.text = song.name
         holder.binding.searchSongSinger.text = song.singer
-        //holder.binding.searchSongImage.
+
+        if (!song.coverUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(song.coverUrl)
+                .placeholder(R.drawable.icons_song)
+                .into(holder.binding.searchSongImage)
+        } else {
+            holder.binding.searchSongImage.setImageResource(R.drawable.icons_song)
+        }
         holder.itemView.setOnClickListener {
             onSearchSongClickListener.onSearchSongClick(song)
         }

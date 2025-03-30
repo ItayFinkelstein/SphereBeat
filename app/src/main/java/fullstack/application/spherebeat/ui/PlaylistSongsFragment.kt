@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.ui.adapter.PlaylistSongsAdapter
 import fullstack.application.spherebeat.databinding.FragmentPlaylistSongsBinding
@@ -51,7 +52,16 @@ class PlaylistSongsFragment : Fragment(R.layout.playlist_songs_layout) {
 
         binding.playlistSongTitle.text = playlistName
         Log.d("PlaylistSongsFragment", "Playlist name: $playlistName")
-        binding.topImage.setImageResource(R.drawable.taylor_swift_album)
+
+        if (!args?.image.isNullOrEmpty()) {
+            Picasso.get()
+                .load(args?.image)
+                .placeholder(R.drawable.icons_song)
+                .into(binding.topImage)
+        } else {
+            binding.topImage.setImageResource(R.drawable.icons_song)
+        }
+
         // Sample data
         songViewModel.songList.observe(viewLifecycleOwner, { fetchedSongs ->
             fetchedSongs?.let {
