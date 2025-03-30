@@ -171,10 +171,27 @@
         android:name="fullstack.application.spherebeat.ui.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
+    <action
+        android:id="@+id/action_profileFragment_to_editProfileFragment"
+        app:destination="@id/editProfileFragment" >
+        <argument
+            android:name="userName"
+            android:defaultValue=""
+            app:argType="string" />
+    </action>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="fullstack.application.spherebeat.ui.EditProfileFragment"
         android:label="Edit Profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile">
+        <argument
+            android:name="userName"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="image"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
 
 </navigation>
