@@ -187,6 +187,10 @@
             android:name="userName"
             android:defaultValue=""
             app:argType="string" />
+        <argument
+            android:name="userId"
+            android:defaultValue=""
+            app:argType="string" />
     </action>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -199,6 +203,10 @@
             app:argType="string" />
         <argument
             android:name="image"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="userId"
             android:defaultValue=""
             app:argType="string" />
     </fragment>

@@ -48,9 +48,6 @@ class ViewSongFragment : Fragment() {
             binding.songImage.setImageResource(fullstack.application.spherebeat.R.drawable.icons_song)
         }
 
-        binding.songImage.setImageResource(
-            resources.getIdentifier(args.imageUrl, "drawable", context?.packageName))
-
         playlistViewModel.playlistList.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let {
                 val playlistSpinnerAdapter = ArrayAdapter(
