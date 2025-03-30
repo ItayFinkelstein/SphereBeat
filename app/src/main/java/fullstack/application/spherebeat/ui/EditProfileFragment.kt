@@ -28,6 +28,8 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEditProfileBinding.inflate(inflater, container, false)
+        val args = EditProfileFragmentArgs.fromBundle(requireArguments())
+        binding.username.setText(args.userName)
         return binding.root
     }
 

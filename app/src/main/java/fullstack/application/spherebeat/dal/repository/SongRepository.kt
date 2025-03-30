@@ -79,7 +79,7 @@ class SongRepository {
     fun getSongsFromApi(songName: String, accessToken: String, callback: (List<Song>, Boolean) -> Unit) {
         executor.execute {
             try {
-                val request = SongsClient.songsApiClient.searchTracks(songName, "track", 5, "Bearer $accessToken")
+                val request = SongsClient.songsApiClient.searchTracks(songName, "track", 1, "Bearer $accessToken")
                 val response = request.execute()
 
                 if (response.isSuccessful) {

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
@@ -24,7 +25,8 @@ private const val ARG_PARAM2 = "param2"
 class ProfileFragment : Fragment() {
     private val currentUser = FirebaseAuth.getInstance().currentUser
     private val userViewModel: UserViewModel by viewModels()
-
+    private var username: String? = null
+    private var image: String? = null
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +42,8 @@ class ProfileFragment : Fragment() {
             users?.let {
                 val selectedUser = users.find { it.email == currentUser?.email }
                 binding.username.text = "Username: " + selectedUser?.name
-
+                username = selectedUser?.name
+                image = selectedUser?.avatarUrl
                 if (!selectedUser?.avatarUrl.isNullOrEmpty()) {
                     Picasso.get()
                         .load(selectedUser?.avatarUrl)
@@ -49,7 +52,16 @@ class ProfileFragment : Fragment() {
                 }
 
             }
+
         })
+
+        binding.submitButton.setOnClickListener {
+            val action = ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(
+                userName = username ?: "",
+                image = image ?: ""
+            )
+            findNavController().navigate(action)
+        }
 
         return binding.root
     }
