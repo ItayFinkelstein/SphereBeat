@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.FieldValue
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.R
 import fullstack.application.spherebeat.dal.repository.PostRepository
 import fullstack.application.spherebeat.databinding.FragmentCreatePostBinding
@@ -41,6 +42,15 @@ class FragmentCreatePost : Fragment() {
             Log.d("Rating", "User selected rating: $rating")
         }
 
+        if (args.imageUrl.isNotEmpty()) {
+            Picasso.get()
+                .load(args.imageUrl)
+                .placeholder(R.drawable.icons_song)
+                .into(binding.createPostSongImage)
+        } else {
+            binding.createPostSongImage.setImageResource(R.drawable.icons_song)
+        }
+
         binding.createPostSubmitButton.setOnClickListener {
             val post = Post(
                 args.postId,
@@ -48,7 +58,7 @@ class FragmentCreatePost : Fragment() {
                 binding.createPostSingerView.text.toString(),
                 90,
                 8,
-                "",
+                args.imageUrl,
                 binding.ratingBar.rating.toInt(),
                 text = binding.postDescription.text.toString(),
                 likes = emptyList(),

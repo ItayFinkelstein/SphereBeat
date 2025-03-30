@@ -21,8 +21,8 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
     private val postViewModel: PostViewModel = PostViewModel()
 
     interface OnPostClickListener {
-        fun onPostClick(name: String, singer: String, description: String, rating: Float)
-        fun onEditPostClick(id: String, name: String, singer: String, description: String, rating: Float)
+        fun onPostClick(name: String, singer: String, description: String, imageUrl: String, rating: Float)
+        fun onEditPostClick(id: String, name: String, singer: String, description: String, imageUrl: String, rating: Float)
     }
     class PostViewHolder(val binding: PostLayoutBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -74,7 +74,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
 
         holder.itemView.setOnClickListener {
             item?.let {
-                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.rating.toFloat()) }
+                onPostClickListener.onPostClick(it.songName, it.singer, it.text, it.coverUrl, it.rating.toFloat()) }
         }
 
         holder.binding.postEditButton.setOnClickListener {
@@ -84,6 +84,7 @@ class PostAdapter(private var itemList: List<Post>?, private var onPostClickList
                     it.songName,
                     it.singer,
                     it.text,
+                    it.coverUrl,
                     it.rating.toFloat()
                 )
             }

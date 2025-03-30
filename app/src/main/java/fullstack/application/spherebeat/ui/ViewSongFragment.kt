@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.squareup.picasso.Picasso
 import fullstack.application.spherebeat.databinding.FragmentViewSongBinding
 import fullstack.application.spherebeat.model.Song
 import fullstack.application.spherebeat.ui.viewModel.PlaylistViewModel
@@ -36,7 +37,19 @@ class ViewSongFragment : Fragment() {
         val args = ViewSongFragmentArgs.fromBundle(requireArguments())
         binding.songTitleTextView.text = args.songName
         binding.songArtistTextView.text = args.artistName
-        binding.songImage.setImageResource(resources.getIdentifier(args.imageUrl, "drawable", context?.packageName))
+        Log.d("ViewSongFragment", "Received song imageurl: ${args.imageUrl}")
+
+        if (!args?.imageUrl.isNullOrEmpty()) {
+            Picasso.get()
+                .load(args?.imageUrl)
+                .placeholder(fullstack.application.spherebeat.R.drawable.icons_song)
+                .into(binding.songImage)
+        } else {
+            binding.songImage.setImageResource(fullstack.application.spherebeat.R.drawable.icons_song)
+        }
+
+        binding.songImage.setImageResource(
+            resources.getIdentifier(args.imageUrl, "drawable", context?.packageName))
 
         playlistViewModel.playlistList.observe(viewLifecycleOwner, Observer { playlists ->
             playlists?.let {
@@ -55,6 +68,7 @@ class ViewSongFragment : Fragment() {
                 rating = 0.0F,
                 songName = args.songName,
                 songArtist = args.artistName,
+                imageUrl = args.imageUrl,
             );
             findNavController().navigate(action)
         }
